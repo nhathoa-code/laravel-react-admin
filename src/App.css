@@ -1,0 +1,51 @@
+.ck.ck-content:not(.ck-comment__input *) {
+  min-height: 500px;
+  overflow-y: auto;
+}
+
+.order_detail table {
+  width: 97%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.order_detail img {
+  width: 70px;
+  height: auto;
+}
+
+#layover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+
+#layover_content {
+  width: fit-content;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.text-info {
+  font-size: 12px;
+  line-height: 16px;
+  color: #999;
+  margin-top: 4px;
+  width: 100%;
+  font-weight: normal !important;
+}
+
+ul.pagination {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+ul.pagination > li {
+  cursor: pointer;
+}

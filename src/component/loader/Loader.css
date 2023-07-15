@@ -1,0 +1,28 @@
+.loader-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+@keyframes jumpingAnimation {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 5px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.loader-container svg circle:nth-last-child(1) {
+  animation: jumpingAnimation 0.4s 0s ease-in infinite;
+}
+.loader-container svg circle:nth-last-child(2) {
+  animation: jumpingAnimation 0.4s 0.1s ease-in infinite;
+}
+.loader-container svg circle:nth-last-child(3) {
+  animation: jumpingAnimation 0.4s 0.2s ease-in infinite;
+}

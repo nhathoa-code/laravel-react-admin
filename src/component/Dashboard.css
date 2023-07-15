@@ -1,0 +1,114 @@
+#statistics .dash-tile {
+  border-radius: 7px;
+  background-color: #fff;
+  color: #333;
+  /* border: 1px solid #333; */
+  border-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(230 230 230 / var(--tw-border-opacity));
+}
+
+#statistics .dash-tile-text {
+  color: #333;
+}
+
+.fa-users:before {
+  content: "\f0c0";
+  color: #5bc0de;
+}
+
+#statistics i.fa:before {
+  color: #5bc0de;
+}
+
+#statistics .dash-tile-header {
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+}
+
+.rs-picker-date-menu
+  .rs-calendar-show-week-numbers
+  .rs-calendar-table-cell-week-number {
+  background-color: #3498ff;
+  color: white;
+  font-weight: bold;
+}
+
+.rs-picker-date-menu
+  .rs-calendar-show-week-numbers
+  .rs-calendar-table-row:hover
+  .rs-calendar-table-cell-content {
+  background-color: rgba(204, 233, 255, 0.5);
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: #1675e0;
+  color: var(--rs-listbox-option-hover-text);
+}
+
+.rs-picker-date-menu
+  .rs-calendar-show-week-numbers
+  .rs-calendar-table-row:not(.rs-calendar-table-header-row):hover
+  .rs-calendar-table-cell-content {
+  background-color: rgba(204, 233, 255, 0.5);
+  background-color: var(--rs-listbox-option-hover-bg);
+  color: #1675e0;
+  color: var(--rs-listbox-option-hover-text);
+}
+
+.rs-picker-date-menu
+  .rs-calendar-show-week-numbers
+  .rs-calendar-table-row
+  .rs-calendar-table-cell.rs-calendar-table-cell-selected
+  ~ .rs-calendar-table-cell
+  .rs-calendar-table-cell-content {
+  background-color: #3498ff;
+  color: #fff;
+}
+
+.rs-picker-date-menu
+  .rs-calendar-show-week-numbers
+  .rs-calendar-table-row:not(.rs-calendar-table-header-row):has(
+    .rs-calendar-table-cell-selected
+  )
+  .rs-calendar-table-cell-content {
+  background-color: #3498ff;
+  background-color: var(--rs-bg-active);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #fff;
+  color: var(--rs-calendar-date-selected-text);
+}
+
+.statistics-chart {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.statistics-chart .btn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.statistics-chart .dash-tile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statistics-chart .btn-type-of-time {
+  background-color: #fff;
+  color: #333;
+  margin-right: 10px;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statistics-chart .btn-type-of-time.selected {
+  background-color: #5bc0de;
+  color: #fff;
+}
