@@ -14,10 +14,19 @@ const Header = () => {
   const handleLogout = () => {
     setIsProcessing(true);
     axios
-      .post(`${process.env.REACT_APP_API_ENDPOINT}/admin/logout`)
-      .then((res) => {
+      .post(
+        `${process.env.REACT_APP_API_ENDPOINT}/admin/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+          },
+        }
+      )
+      .then(() => {
         setIsProcessing(false);
         setAdmin(null);
+        localStorage.removeItem("auth_token");
         navigate("/login");
       });
   };

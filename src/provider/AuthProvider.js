@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { AppStoreContext } from "./AppStoreProvider";
+import axios from "../component/Axios";
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -10,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/admin`)
       .then((res) => {
+        setIsLogginChecked(true);
         setAdmin({ ...res.data.admin });
         setIsLogginChecked(true);
       })

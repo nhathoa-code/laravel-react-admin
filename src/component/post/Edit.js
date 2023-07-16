@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../Axios";
 import slugify from "react-slugify";
 import { useParams } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -24,6 +24,21 @@ class MyUploadAdapter {
             .post(`${process.env.REACT_APP_API_ENDPOINT}/post/images`, formData)
             .then((res) => {
               console.log(res);
+              if (localStorage.getItem("post_images")) {
+                let description_images = JSON.parse(
+                  localStorage.getItem("post_images")
+                );
+                description_images.push(res.data.image_path);
+                localStorage.setItem(
+                  "post_images",
+                  JSON.stringify(description_images)
+                );
+              } else {
+                localStorage.setItem(
+                  "post_images",
+                  JSON.stringify([res.data.image_path])
+                );
+              }
               resolve({
                 default: res.data.image_url,
               });
@@ -71,6 +86,7 @@ const Edit = () => {
       .post(`${process.env.REACT_APP_API_ENDPOINT}/posts/${post.id}`, formData)
       .then((res) => {
         setIsProcessing(false);
+        localStorage.removeItem("post_images");
         alert(res.data.message);
       });
   };

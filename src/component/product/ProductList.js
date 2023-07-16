@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, json } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import Processing from "../process_icon/ProcessingIcon";
 import { Parser } from "html-to-react";
-axios.defaults.withCredentials = true;
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [links, setLinks] = useState([]);

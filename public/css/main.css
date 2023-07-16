@@ -1972,6 +1972,25 @@ span.input-group-addon {
   padding: 20px;
   border-bottom: 2px solid #ddd;
   background-color: #f5f5f5;
+  /* font-size: large; */
+  line-height: normal !important;
+}
+
+h4,
+h3 {
+  line-height: 20px !important;
+  font-size: 18px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  font-family: inherit !important;
+  font-weight: bold !important;
+  line-height: 1.1 !important;
+  color: inherit !important;
+}
+
+h3 {
+  line-height: 40px !important;
+  margin-bottom: 0 !important;
 }
 
 .form-box-sub-header {

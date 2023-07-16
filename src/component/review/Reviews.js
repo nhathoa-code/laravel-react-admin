@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 const Reviews = () => {
   const [reviewsToProve, setReviewsToProve] = useState([]);

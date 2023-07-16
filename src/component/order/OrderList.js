@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 
 const OrderList = () => {

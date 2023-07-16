@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import { Parser } from "html-to-react";
 import Processing from "../process_icon/ProcessingIcon";

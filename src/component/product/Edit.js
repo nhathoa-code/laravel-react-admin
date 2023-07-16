@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../Axios";
 import uuid from "react-uuid";
 import slugify from "react-slugify";
 import Editor from "./Editor";
@@ -811,6 +811,9 @@ const Edit = () => {
       .then((res) => {
         console.log(res.data);
         setIsProcessing(false);
+        if (localStorage.getItem("description_images")) {
+          localStorage.removeItem("description_images");
+        }
         setTimeout(() => {
           alert("Sửa sản phẩm thành công");
         }, 10);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import axios from "axios";
+import axios from "../Axios";
 
 class MyUploadAdapter {
   constructor(loader) {
@@ -19,7 +19,23 @@ class MyUploadAdapter {
           axios
             .post(`${process.env.REACT_APP_API_ENDPOINT}/upload`, formData)
             .then((res) => {
-              console.log(res);
+              console.log(res.data);
+              if (localStorage.getItem("description_images")) {
+                let description_images = JSON.parse(
+                  localStorage.getItem("description_images")
+                );
+                description_images.push(res.data.image_path);
+                localStorage.setItem(
+                  "description_images",
+                  JSON.stringify(description_images)
+                );
+              } else {
+                localStorage.setItem(
+                  "description_images",
+                  JSON.stringify([res.data.image_path])
+                );
+              }
+
               resolve({
                 default: res.data.image_url,
               });

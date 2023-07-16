@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import Processing from "../process_icon/ProcessingIcon";
 import DatePicker from "react-datepicker";

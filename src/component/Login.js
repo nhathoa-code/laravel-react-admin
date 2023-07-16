@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "./Axios";
 import Loader from "./loader/Loader";
 
 const Login = () => {
@@ -18,7 +18,8 @@ const Login = () => {
       .post(`${process.env.REACT_APP_API_ENDPOINT}/admin/login`, formData)
       .then((res) => {
         setIsProcessing(false);
-        setAdmin(res.data);
+        localStorage.setItem("auth_token", res.data.auth_token);
+        setAdmin(res.data.admin);
         navigate("/");
       })
       .catch((err) => {

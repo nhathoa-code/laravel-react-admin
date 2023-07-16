@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import slugify from "react-slugify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -22,6 +22,21 @@ class MyUploadAdapter {
             .post(`${process.env.REACT_APP_API_ENDPOINT}/post/images`, formData)
             .then((res) => {
               console.log(res);
+              if (localStorage.getItem("post_images")) {
+                let description_images = JSON.parse(
+                  localStorage.getItem("post_images")
+                );
+                description_images.push(res.data.image_path);
+                localStorage.setItem(
+                  "post_images",
+                  JSON.stringify(description_images)
+                );
+              } else {
+                localStorage.setItem(
+                  "post_images",
+                  JSON.stringify([res.data.image_path])
+                );
+              }
               resolve({
                 default: res.data.image_url,
               });
@@ -72,10 +87,14 @@ const Post = () => {
     if (product_id) {
       formData.append("product_id", Number(product_id));
     }
+    if (localStorage.getItem("post_images")) {
+      formData.append("post_images", localStorage.getItem("post_images"));
+    }
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}/posts`, formData)
       .then(() => {
         setIsProcessing(false);
+        localStorage.removeItem("post_images");
         alert("Thêm bài viết thành công");
         navigate("/posts");
       });

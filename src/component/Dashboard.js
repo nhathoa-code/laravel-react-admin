@@ -12,7 +12,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Processing from "./process_icon/ProcessingIcon";
-import axios from "axios";
+import axios from "./Axios";
 import DatePicker from "rsuite/DatePicker";
 import moment from "moment";
 import "rsuite/dist/rsuite.min.css";

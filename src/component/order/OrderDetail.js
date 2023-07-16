@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import { NumericFormat } from "react-number-format";
 import Processing from "../process_icon/ProcessingIcon";

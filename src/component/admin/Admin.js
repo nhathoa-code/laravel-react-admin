@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import Processing from "../process_icon/ProcessingIcon";
 

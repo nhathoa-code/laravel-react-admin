@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 import Loader from "../loader/Loader";
 import "./ProductReviews.css";
 import ProcessingIcon from "../process_icon/ProcessingIcon";

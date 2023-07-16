@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../Axios";
 import { useNavigate } from "react-router-dom";
 import slugify from "react-slugify";
 import uuid from "react-uuid";
@@ -286,6 +286,12 @@ const Product = () => {
       )
     );
     formData.append("description", description);
+    if (localStorage.getItem("description_images")) {
+      formData.append(
+        "description_images",
+        localStorage.getItem("description_images")
+      );
+    }
     if (suggestedProducts.length > 0) {
       formData.append(
         "suggestion_products",
@@ -321,6 +327,7 @@ const Product = () => {
       .post(`${process.env.REACT_APP_API_ENDPOINT}/products`, formData)
       .then((res) => {
         console.log(res.data);
+        localStorage.removeItem("description_images");
         setIsProcessing(false);
         setTimeout(() => {
           alert(res.data.message);

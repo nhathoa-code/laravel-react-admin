@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../loader/Loader";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../Axios";
 
 const Coupons = () => {
   const [isLoading, setIsLoading] = useState(true);
