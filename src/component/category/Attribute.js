@@ -68,7 +68,6 @@ const Attribute = () => {
         })
         .then((res) => {
           setIsProcessing(false);
-          console.log(res.data);
           let createdAttr = res.data;
           setCategoryAttributes((prev) => {
             return [...prev, createdAttr];
@@ -107,7 +106,6 @@ const Attribute = () => {
         `${process.env.REACT_APP_API_ENDPOINT}/category_attributes/${category_id}`
       )
       .then((res) => {
-        console.log(res.data);
         setCategoryAttributes(res.data.category_attributes);
         setIsLoading(false);
       });

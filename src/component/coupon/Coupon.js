@@ -31,9 +31,7 @@ const Coupon = () => {
     formData.append("end", end);
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}/coupons`, formData)
-      .then((res) => {
-        console.log(res.data);
-      });
+      .then((res) => {});
   };
 
   const handleSelectCouponType = (e) => {

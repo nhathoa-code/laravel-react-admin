@@ -2,11 +2,11 @@
   border-radius: 7px;
   background-color: #fff;
   color: #333;
-  /* border: 1px solid #333; */
   border-width: 1px;
   border-style: solid;
   --tw-border-opacity: 1;
   border-color: rgb(230 230 230 / var(--tw-border-opacity));
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
 }
 
 #statistics .dash-tile-text {
@@ -22,15 +22,33 @@
   color: #5bc0de;
 }
 
+#statistics .key-metric .value .currency-symbol {
+  font-size: 16px;
+}
+
+#statistics .key-metric .value .currency-symbol:after {
+  content: " ";
+}
+
 #statistics .dash-tile-header {
-  border-top-right-radius: 7px;
-  border-top-left-radius: 7px;
+  font-size: 18px;
+  display: block;
+  font-weight: 500 !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#statistics .dash-tile-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-top: 10px !important;
 }
 
 .rs-picker-date-menu
   .rs-calendar-show-week-numbers
   .rs-calendar-table-cell-week-number {
-  background-color: #3498ff;
+  background-color: rgb(38, 115, 221);
   color: white;
   font-weight: bold;
 }
@@ -39,20 +57,16 @@
   .rs-calendar-show-week-numbers
   .rs-calendar-table-row:hover
   .rs-calendar-table-cell-content {
-  background-color: rgba(204, 233, 255, 0.5);
-  background-color: var(--rs-listbox-option-hover-bg);
-  color: #1675e0;
-  color: var(--rs-listbox-option-hover-text);
+  background-color: rgb(38, 115, 221);
+  color: #fff;
 }
 
 .rs-picker-date-menu
   .rs-calendar-show-week-numbers
   .rs-calendar-table-row:not(.rs-calendar-table-header-row):hover
   .rs-calendar-table-cell-content {
-  background-color: rgba(204, 233, 255, 0.5);
-  background-color: var(--rs-listbox-option-hover-bg);
-  color: #1675e0;
-  color: var(--rs-listbox-option-hover-text);
+  background-color: rgb(38, 115, 221);
+  color: #fff;
 }
 
 .rs-picker-date-menu
@@ -61,8 +75,12 @@
   .rs-calendar-table-cell.rs-calendar-table-cell-selected
   ~ .rs-calendar-table-cell
   .rs-calendar-table-cell-content {
-  background-color: #3498ff;
+  background-color: rgb(38, 115, 221);
   color: #fff;
+}
+
+.rs-btn-primary {
+  background-color: rgb(38, 115, 221) !important;
 }
 
 .rs-picker-date-menu
@@ -71,8 +89,8 @@
     .rs-calendar-table-cell-selected
   )
   .rs-calendar-table-cell-content {
-  background-color: #3498ff;
-  background-color: var(--rs-bg-active);
+  background-color: rgb(38, 115, 221);
+  background-color: rgb(38, 115, 221);
   -webkit-box-shadow: none;
   box-shadow: none;
   color: #fff;
@@ -109,6 +127,38 @@
 }
 
 .statistics-chart .btn-type-of-time.selected {
-  background-color: #5bc0de;
+  background-color: rgb(38, 115, 221);
   color: #fff;
+}
+
+.key-metric[data-v-ca3d5102] {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 16px 8px 16px 16px;
+  min-width: 185px;
+  background: #fff;
+  border-top: 4px solid rgb(38, 115, 221);
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.title[data-v-ca3d5102] {
+  flex: 1;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500 !important;
+}
+
+.value[data-v-ca3d5102] {
+  margin-top: 4px;
+  font-size: 22px;
+  line-height: 24px;
+  font-weight: 500 !important;
+  color: #333;
+  display: flex;
+  align-items: end;
 }

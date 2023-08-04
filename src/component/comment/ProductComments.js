@@ -37,12 +37,10 @@ const CommentForm = ({
       comment_id: comment_id,
       comment_to_reply_id: id,
     };
-    console.log(data);
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}/comments_to_reply`, data)
       .then((res) => {
         alert("Đã trả lời bình luận");
-        // return console.log(res.data);
         if (comments.length > 1) {
           if (comment_id === null) {
             setComments((prev) => {
@@ -160,11 +158,7 @@ const CommentForm = ({
         ></textarea>
         <button onClick={handleReply} class="button">
           <div class="icon-paper-plane">
-            <svg
-              height="15"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-            >
+            <svg height="15" viewBox="0 0 512 512">
               <path d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"></path>
             </svg>
           </div>
@@ -335,12 +329,7 @@ const ProductComments = () => {
                         </div>
                         <div class="box-time-cmt">
                           <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="12"
-                              height="12"
-                              viewBox="0 0 12 12"
-                            >
+                            <svg width="12" height="12" viewBox="0 0 12 12">
                               <path
                                 id="clock"
                                 d="M7.72,8.78,5.25,6.31V3h1.5v2.69L8.78,7.72ZM6,0a6,6,0,1,0,6,6A6,6,0,0,0,6,0ZM6,10.5A4.5,4.5,0,1,1,10.5,6,4.5,4.5,0,0,1,6,10.5Z"
@@ -362,12 +351,7 @@ const ProductComments = () => {
                                 commentReplied(item.id);
                               }}
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="13"
-                                height="12"
-                                viewBox="0 0 12 10.8"
-                              >
+                              <svg width="13" height="12" viewBox="0 0 12 10.8">
                                 <path
                                   id="chat"
                                   d="M3.48,8.32V4.6H1.2A1.2,1.2,0,0,0,0,5.8V9.4a1.2,1.2,0,0,0,1.2,1.2h.6v1.8l1.8-1.8h3A1.2,1.2,0,0,0,7.8,9.4V8.308a.574.574,0,0,1-.12.013H3.48ZM10.8,1.6H5.4A1.2,1.2,0,0,0,4.2,2.8V7.6H8.4l1.8,1.8V7.6h.6A1.2,1.2,0,0,0,12,6.4V2.8a1.2,1.2,0,0,0-1.2-1.2Z"
@@ -425,7 +409,6 @@ const ProductComments = () => {
                                       <div class="box-time-cmt">
                                         <div>
                                           <svg
-                                            xmlns="http://www.w3.org/2000/svg"
                                             width="12"
                                             height="12"
                                             viewBox="0 0 12 12"
@@ -450,7 +433,6 @@ const ProductComments = () => {
                                             }}
                                           >
                                             <svg
-                                              xmlns="http://www.w3.org/2000/svg"
                                               width="13"
                                               height="12"
                                               viewBox="0 0 12 10.8"

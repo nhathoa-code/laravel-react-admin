@@ -21,7 +21,6 @@ class MyUploadAdapter {
           axios
             .post(`${process.env.REACT_APP_API_ENDPOINT}/post/images`, formData)
             .then((res) => {
-              console.log(res);
               if (localStorage.getItem("post_images")) {
                 let description_images = JSON.parse(
                   localStorage.getItem("post_images")
@@ -42,7 +41,6 @@ class MyUploadAdapter {
               });
             })
             .catch((err) => {
-              console.log(err);
               reject("not ok");
             });
         })
@@ -74,7 +72,6 @@ const Post = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/post/categories`)
       .then((res) => {
-        console.log(res.data);
         setPostCategories(res.data);
       });
   }, []);
@@ -92,11 +89,15 @@ const Post = () => {
     }
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}/posts`, formData)
-      .then(() => {
+      .then((res) => {
         setIsProcessing(false);
         localStorage.removeItem("post_images");
-        alert("Thêm bài viết thành công");
+        alert(res.data.message);
         navigate("/posts");
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

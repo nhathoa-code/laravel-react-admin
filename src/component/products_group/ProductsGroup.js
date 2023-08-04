@@ -16,7 +16,6 @@ const ProductsGroup = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/all_categories`)
       .then((res) => {
-        console.log(res.data);
         setCategories(loopCategories(res.data));
       });
   }, []);
@@ -129,6 +128,12 @@ const ProductsGroup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (document.querySelector("input[name=name]").value === "") {
+      return alert("Vui lòng nhập tên nhóm");
+    }
+    if (!document.querySelector("input[name=category]:checked")) {
+      return alert("vui lòng chọn danh mục");
+    }
     setIsProcessing(true);
     const formData = new FormData(document.querySelector("form#form"));
     if (isEditMode) {
@@ -142,8 +147,6 @@ const ProductsGroup = () => {
           setIsEditMode(false);
           setProductsGroups((prev) => {
             let edited_group = prev.find((item) => item.id === id);
-            console.log(edited_group);
-            console.log(res.data.edited_group);
             edited_group.name = res.data.edited_group.name;
             edited_group.category_id = Number(
               res.data.edited_group.category_id
@@ -225,7 +228,6 @@ const ProductsGroup = () => {
     setIsProcessing(true);
     axios.get(url).then((res) => {
       setIsProcessing(false);
-      console.log(res.data);
       setProductsGroups(res.data.products_groups.data);
       setLinks(res.data.products_groups.links);
     });
@@ -235,7 +237,6 @@ const ProductsGroup = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/products_groups`)
       .then((res) => {
-        console.log(res.data);
         setProductsGroups(res.data.products_groups.data);
         setLinks(res.data.products_groups.links);
         setIsLoading(false);

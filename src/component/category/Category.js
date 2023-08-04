@@ -59,7 +59,6 @@ const Category = () => {
         })
         .then((res) => {
           setIsProcessing(false);
-          console.log(res);
           let createdCat = res.data;
           setCategories((prev) => {
             return [...prev, createdCat];
@@ -77,7 +76,6 @@ const Category = () => {
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/categories/${id}`)
       .then((res) => {
-        console.log(res);
         setCategories((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });

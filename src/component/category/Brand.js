@@ -22,7 +22,6 @@ const Brand = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setBrands(res.data);
         setIsLoading(false);
       });
@@ -42,7 +41,6 @@ const Brand = () => {
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/brands/${id}`)
       .then((res) => {
-        console.log(res.data);
         setBrands((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
@@ -84,7 +82,6 @@ const Brand = () => {
         .post(`${process.env.REACT_APP_API_ENDPOINT}/brands`, formData)
         .then((res) => {
           setIsProcessing(false);
-          console.log(res.data.new_brand);
           setBrands((prev) => {
             return [...prev, res.data.new_brand];
           });

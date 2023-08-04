@@ -12,19 +12,23 @@ const Posts = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [links, setLinks] = useState([]);
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`)
-      .then((res) => {
-        console.log(res.data.message);
+      .then(() => {
+        setIsProcessing(false);
         setPosts((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`).then((res) => {
-      console.log(res.data.data);
       setPosts(res.data.data);
       setLinks(res.data.links);
       setIsLoading(false);
@@ -37,7 +41,6 @@ const Posts = () => {
     }
     setIsProcessing(true);
     axios.get(url).then((res) => {
-      console.log(res.data.data);
       setIsProcessing(false);
       setPosts(res.data.data);
       setLinks(res.data.links);

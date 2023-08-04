@@ -91,6 +91,7 @@ const Specification = ({ specification, setSpecification }) => {
                   value={Item.title && Item.title}
                   className="form-control"
                   data-name="title"
+                  required
                   onChange={(e) => {
                     handleInputChange(Item.id, null, e);
                   }}
@@ -133,6 +134,7 @@ const Specification = ({ specification, setSpecification }) => {
                     <div class="col-md-4">
                       <input
                         type="text"
+                        required
                         className="form-control"
                         placeholder="thông tin kỹ thuật"
                         data-name="technical_info"
@@ -150,6 +152,7 @@ const Specification = ({ specification, setSpecification }) => {
                         data-name="technical_content"
                         placeholder="nội dung kỹ thuật"
                         className="form-control"
+                        required
                         value={item.technical_content && item.technical_content}
                         onChange={(e) => {
                           handleInputChange(Item.id, item.id, e);

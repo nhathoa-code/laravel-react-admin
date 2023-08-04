@@ -22,7 +22,6 @@ const ProductReviews = () => {
       })
       .then((res) => {
         setIsLoading(false);
-        console.log(res.data.product);
         setProduct(res.data.product);
         setReviews(res.data.reviews);
       });
@@ -59,7 +58,6 @@ const ProductReviews = () => {
         } else {
           navigate(`/reviews`);
         }
-        console.log(res.data);
       });
   };
 

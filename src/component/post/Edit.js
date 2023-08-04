@@ -23,7 +23,6 @@ class MyUploadAdapter {
           axios
             .post(`${process.env.REACT_APP_API_ENDPOINT}/post/images`, formData)
             .then((res) => {
-              console.log(res);
               if (localStorage.getItem("post_images")) {
                 let description_images = JSON.parse(
                   localStorage.getItem("post_images")
@@ -44,7 +43,6 @@ class MyUploadAdapter {
               });
             })
             .catch((err) => {
-              console.log(err);
               reject("not ok");
             });
         })
@@ -70,7 +68,6 @@ const Edit = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/posts/${post_id}`)
       .then((res) => {
-        console.log(res.data);
         setPost(res.data);
         setIsLoading(false);
       });
@@ -88,6 +85,10 @@ const Edit = () => {
         setIsProcessing(false);
         localStorage.removeItem("post_images");
         alert(res.data.message);
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

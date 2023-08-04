@@ -216,7 +216,6 @@ const Product = () => {
   };
 
   const handleProductColorGalleryUploaded = (e, key) => {
-    // return console.log(e.target.files);
     let product_color_gallery_preview = [...product_colors_images_preview].find(
       (item) => item.key === key
     ).product_color_gallery;
@@ -258,17 +257,7 @@ const Product = () => {
   const handleAddProduct = (e) => {
     e.preventDefault();
     const formData = new FormData(document.getElementById("form"));
-    if (
-      formData.get("p_name").length === "" ||
-      formData.get("slug").length === "" ||
-      formData.get("p_price").length === "" ||
-      formData.get("p_discounted_price").length === "" ||
-      formData.get("p_image").size === 0 ||
-      description.length === "" ||
-      formData.get("categories[]") === null ||
-      (formData.get("version_name") !== null &&
-        formData.get("version_name") === "")
-    ) {
+    if (description.length === "" || formData.get("categories[]") === null) {
       return alert("Vui lòng nhập thông tin đầy đủ!");
     }
     setIsProcessing(true);
@@ -326,7 +315,6 @@ const Product = () => {
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}/products`, formData)
       .then((res) => {
-        console.log(res.data);
         localStorage.removeItem("description_images");
         setIsProcessing(false);
         setTimeout(() => {
@@ -352,7 +340,6 @@ const Product = () => {
         .get(`${process.env.REACT_APP_API_ENDPOINT}/all_categories`)
         .then((res) => {
           setIsProcessing(false);
-          console.log(res.data);
           setGroupsCategories(loopGroupsCategories(res.data));
         });
     }
@@ -500,7 +487,6 @@ const Product = () => {
       })
       .then((res) => {
         setIsProcessing(false);
-        console.log(res.data);
         setProductsGroups(res.data);
         setIsLoadingGroup(false);
       });
@@ -559,9 +545,11 @@ const Product = () => {
         }
       });
     });
-    axios.get("http://127.0.0.1:8000/api/all_categories").then((res) => {
-      setCategories(loopCategories(res.data));
-    });
+    axios
+      .get(`${process.env.REACT_APP_API_ENDPOINT}/all_categories`)
+      .then((res) => {
+        setCategories(loopCategories(res.data));
+      });
   }, []);
 
   return (
@@ -587,13 +575,19 @@ const Product = () => {
                     type="text"
                     class="form-control"
                     name="p_name"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-md-12">
                   <h4>Slug</h4>
-                  <input type="text" class="form-control" name="slug" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="slug"
+                    required
+                  />
                 </div>
               </div>
               <div class="form-group">
@@ -605,6 +599,7 @@ const Product = () => {
                     allowNegative={false}
                     name="p_price"
                     className="form-control"
+                    required
                   />
                 </div>
                 <div class="col-md-6">
@@ -615,6 +610,7 @@ const Product = () => {
                     allowNegative={false}
                     name="p_discounted_price"
                     className="form-control"
+                    required
                   />
                 </div>
               </div>
@@ -626,6 +622,7 @@ const Product = () => {
                     type="file"
                     name="p_image"
                     className="form-control"
+                    required
                   />
                   {product_image && (
                     <img
@@ -637,6 +634,20 @@ const Product = () => {
                   )}
                 </div>
               </div>
+              {isProductColorImageUpload.length === 0 && (
+                <div class="form-group">
+                  <div class="col-md-3">
+                    <h4>Kho</h4>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="p_inventory"
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="form-group">
                 <div className="col-md-12">
                   <input
@@ -674,9 +685,6 @@ const Product = () => {
                   <input
                     onClick={() => {
                       setIsGalleryUpload(true);
-                      // setIsProductColorImageUpload([]);
-                      // setProductColorsImages([]);
-                      // setProductColorsImagesPreview([]);
                     }}
                     type="button"
                     value="Thêm bộ sưu tập"
@@ -738,7 +746,6 @@ const Product = () => {
                             type="button"
                             onClick={() => {
                               setIsGalleryUpload(false);
-                              // setGalleryPreview([]);
                               setGallery([]);
                             }}
                             className="btn btn-danger"
@@ -764,7 +771,7 @@ const Product = () => {
                                 handleProductColorUploaded(e, key)
                               }
                               type="file"
-                              name="p_image"
+                              required
                               className="form-control"
                             />
                             {product_colors_images_preview.find(
@@ -790,10 +797,32 @@ const Product = () => {
                                   className="form-control"
                                   placeholder="Tên màu"
                                   name={"p_color_image_name_" + index}
+                                  required
                                 />
                               </>
                             )}
                           </div>
+                          <input
+                            type="button"
+                            className="btn btn-danger"
+                            value="Bỏ"
+                            style={{ width: "100%" }}
+                            onClick={() => {
+                              setProductColorsImagesPreview((prev) => {
+                                return [...prev].filter(
+                                  (item) => item.key !== key
+                                );
+                              });
+                              setProductColorsImages((prev) => {
+                                return [...prev].filter(
+                                  (item) => item.key !== key
+                                );
+                              });
+                              setIsProductColorImageUpload((prev) => {
+                                return [...prev].filter((item) => item !== key);
+                              });
+                            }}
+                          />
                         </div>
                         <div class="col-md-8">
                           <h4>Tải bộ sưu tập ảnh màu</h4>
@@ -850,27 +879,13 @@ const Product = () => {
                               })}
                           </ul>
                         </div>
-                        <div className="col-md-2" style={{ marginTop: "40px" }}>
+                        <div className="col-md-2">
+                          <h4>Kho</h4>
                           <input
-                            type="button"
-                            className="btn btn-danger"
-                            value="Bỏ"
-                            style={{ width: "100%" }}
-                            onClick={() => {
-                              setProductColorsImagesPreview((prev) => {
-                                return [...prev].filter(
-                                  (item) => item.key !== key
-                                );
-                              });
-                              setProductColorsImages((prev) => {
-                                return [...prev].filter(
-                                  (item) => item.key !== key
-                                );
-                              });
-                              setIsProductColorImageUpload((prev) => {
-                                return [...prev].filter((item) => item !== key);
-                              });
-                            }}
+                            type="number"
+                            class="form-control"
+                            name={`p_inventory_of_color_${index}`}
+                            required
                           />
                         </div>
                       </div>
@@ -1085,10 +1100,10 @@ const Product = () => {
                           {Item.brands.map((item) => {
                             return (
                               <div class="checkbox">
-                                <label for={item.id}>
+                                <label for={`brand_${item.id}`}>
                                   <input
                                     type="checkbox"
-                                    id={item.id}
+                                    id={`brand_${item.id}`}
                                     name="brands[]"
                                     value={`${Item.id}/${item.id}`}
                                   />
@@ -1118,10 +1133,10 @@ const Product = () => {
                               {item.values.map((item) => {
                                 return (
                                   <div class="checkbox">
-                                    <label for={item.id}>
+                                    <label for={`cat_attr_${item.id}`}>
                                       <input
                                         type="checkbox"
-                                        id={item.id}
+                                        id={`cat_attr_${item.id}`}
                                         name="categories_attributes[]"
                                         value={`${Item.id}/${item.id}`}
                                       />{" "}
@@ -1209,6 +1224,7 @@ const Product = () => {
                     class="form-control"
                     name="version_name"
                     placeholder="Tên phiên bản"
+                    required
                   ></input>
                 )}
             </div>

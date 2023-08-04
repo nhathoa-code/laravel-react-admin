@@ -21,10 +21,10 @@ const Edit = () => {
 
   const [product_colors_modified, setProductColorsModified] = useState([]);
 
-  const handleNewColorUpload = (id_color, e) => {
+  const handleNewColorUpload = (color_id, e) => {
     setProductColorsModified((prev) => {
       return [...prev].map((item) => {
-        if (item.color === id_color) {
+        if (item.color_id === color_id) {
           item.new_color = e.target.files[0];
           return item;
         } else {
@@ -35,7 +35,7 @@ const Edit = () => {
 
     setOldProductColors((prev) => {
       return [...prev].map((item) => {
-        if (item.id_color === id_color) {
+        if (item.color.id === color_id) {
           item.color.color = URL.createObjectURL(e.target.files[0]);
           return item;
         } else {
@@ -45,11 +45,11 @@ const Edit = () => {
     });
   };
 
-  const handleNewGalleryUpload = (id_color, e) => {
+  const handleNewGalleryUpload = (color_id, e) => {
     let new_gallery = [];
     setOldProductColors((prev) => {
       return [...prev].map((item) => {
-        if (item.id_color === id_color) {
+        if (item.color.id === color_id) {
           let new_gallery_preview = [];
           for (let i = 0; i < e.target.files.length; i++) {
             let image = URL.createObjectURL(e.target.files[i]);
@@ -70,7 +70,7 @@ const Edit = () => {
 
     setProductColorsModified((prev) => {
       return [...prev].map((item) => {
-        if (item.color === id_color) {
+        if (item.color_id === color_id) {
           item.gallery = [...item.gallery, ...new_gallery];
           return item;
         } else {
@@ -80,21 +80,21 @@ const Edit = () => {
     });
   };
 
-  const handleDeleteProductColor = (id_color, e) => {
+  const handleDeleteProductColor = (color_id, e) => {
     e.preventDefault();
     setOldProductColors((prev) => {
-      return [...prev].filter((item) => item.id_color !== id_color);
+      return [...prev].filter((item) => item.color.id !== color_id);
     });
     setProductColorsModified((prev) => {
-      return [...prev].filter((item) => item.color !== id_color);
+      return [...prev].filter((item) => item.color_id !== color_id);
     });
   };
 
-  const handleDeleteColorGalleryImage = (id_color, image_path, e) => {
+  const handleDeleteColorGalleryImage = (color_id, image_path, e) => {
     e.preventDefault();
     setOldProductColors((prev) => {
       return [...prev].map((item) => {
-        if (item.id_color === id_color) {
+        if (item.color.id === color_id) {
           item.gallery = [...item.gallery].filter(
             (item) => item.image_path !== image_path
           );
@@ -107,7 +107,7 @@ const Edit = () => {
 
     setProductColorsModified((prev) => {
       return [...prev].map((item) => {
-        if (item.color === id_color) {
+        if (item.color_id === color_id) {
           item.gallery = [...item.gallery].filter(
             (item) => item.id !== image_path
           );
@@ -200,9 +200,8 @@ const Edit = () => {
           if (res.data.hasOwnProperty("colors")) {
             setProductColorsModified(
               res.data.colors.map((item) => {
-                console.log(item.color.color);
                 return {
-                  color: item.color.color,
+                  color_id: item.color.id,
                   new_color: null,
                   gallery: [],
                 };
@@ -210,12 +209,14 @@ const Edit = () => {
             );
             setOldProductColors(
               res.data.colors.map((item) => {
-                console.log(item.color.color);
-                item.id_color = item.color.color;
-                item.color.color = "http://localhost:8000/" + item.color.color;
+                item.color_path = item.color.color;
+                item.color.color =
+                  `${process.env.REACT_APP_SERVER_ROOT_URL}/` +
+                  item.color.color;
                 item.gallery = [...item.gallery].map((item) => {
                   return {
-                    image_preview: "http://localhost:8000/" + item,
+                    image_preview:
+                      `${process.env.REACT_APP_SERVER_ROOT_URL}/` + item,
                     image_path: item,
                     status: "old",
                   };
@@ -233,9 +234,10 @@ const Edit = () => {
             });
             setIsGalleryUpload(true);
           }
-          console.log(res.data);
           setProductInit(res.data);
-          setProductImagePreview("http://localhost:8000/" + res.data.image);
+          setProductImagePreview(
+            `${process.env.REACT_APP_SERVER_ROOT_URL}/` + res.data.image
+          );
           setDescription(res.data.description);
           setProductCategories(res.data.cats);
           setBrands(res.data.brands);
@@ -328,7 +330,6 @@ const Edit = () => {
           `${process.env.REACT_APP_API_ENDPOINT}/category/attributes/${item.id}`
         )
         .then((res) => {
-          console.log(res.data);
           let cat = {
             category_name: e.target.getAttribute("category_name"),
             id: item.id,
@@ -675,7 +676,6 @@ const Edit = () => {
       })
       .then((res) => {
         setIsProcessing(false);
-        console.log(res.data);
         setProductsGroups(res.data);
         setIsLoadingGroup(false);
       });
@@ -724,29 +724,27 @@ const Edit = () => {
     setIsProcessing(true);
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     let formData = new FormData(document.getElementById("form"));
+    if (description.length === "" || formData.get("categories[]") === null) {
+      return alert("Vui lòng nhập thông tin đầy đủ!");
+    }
     // ------------ handle modified color images ------------ //
     for (let i = 0; i < product_colors_modified.length; i++) {
       if (product_colors_modified[i].new_color) {
         formData.append(
-          product_colors_modified[i].color
-            .replaceAll("/", "-")
-            .replace(".", "--"),
+          `new_color_${product_colors_modified[i].color_id}`,
           product_colors_modified[i].new_color
         );
       }
       if (product_colors_modified[i].gallery.length > 0) {
         for (let y = 0; y < product_colors_modified[i].gallery.length; y++) {
           formData.append(
-            "gallery_of_" +
-              product_colors_modified[i].color
-                .replaceAll("/", "-")
-                .replace(".", "--") +
-              "[]",
+            `gallery_of_color_${product_colors_modified[i].color_id}[]`,
             product_colors_modified[i].gallery[y].image
           );
         }
       }
     }
+    // ------------End handle modified color images ------------ //
     formData.append("_method", "put");
     formData.append("old_product_colors", JSON.stringify(old_product_colors));
     formData.append(
@@ -809,7 +807,6 @@ const Edit = () => {
         config
       )
       .then((res) => {
-        console.log(res.data);
         setIsProcessing(false);
         if (localStorage.getItem("description_images")) {
           localStorage.removeItem("description_images");
@@ -849,6 +846,7 @@ const Edit = () => {
                       type="text"
                       class="form-control"
                       name="p_name"
+                      required
                       defaultValue={productInit.name}
                     />
                   </div>
@@ -861,6 +859,7 @@ const Edit = () => {
                       type="text"
                       class="form-control"
                       name="slug"
+                      required
                     />
                   </div>
                 </div>
@@ -873,6 +872,7 @@ const Edit = () => {
                       allowNegative={false}
                       name="p_price"
                       className="form-control"
+                      required
                       defaultValue={new Intl.NumberFormat({
                         style: "currency",
                       }).format(productInit.price)}
@@ -886,6 +886,7 @@ const Edit = () => {
                       allowNegative={false}
                       name="p_discounted_price"
                       className="form-control"
+                      required
                       defaultValue={new Intl.NumberFormat({
                         style: "currency",
                       }).format(productInit.discounted_price)}
@@ -912,46 +913,108 @@ const Edit = () => {
                     )}
                   </div>
                 </div>
-                <input
-                  onClick={() => {
-                    let key = uuid();
-                    setProductColorsImages((prev) => {
-                      return [
-                        ...prev,
-                        {
-                          key: key,
-                          product_color: null,
-                          product_color_gallery: [],
-                        },
-                      ];
-                    });
-                    setProductColorsImagesPreview((prev) => {
-                      return [
-                        ...prev,
-                        {
-                          key: key,
-                          product_color: null,
-                          product_color_gallery: [],
-                        },
-                      ];
-                    });
-                    setIsProductColorImageUpload((prev) => {
-                      return [...prev, key];
-                    });
-                  }}
-                  type="button"
-                  value="Thêm ảnh màu"
-                  className="btn btn-primary"
-                />
-                <span style={{ margin: "0 10px" }}>Hoặc</span>
-                <input
-                  onClick={() => {
-                    setIsGalleryUpload(true);
-                  }}
-                  type="button"
-                  value="Thêm bộ sưu tập"
-                  className="btn btn-primary"
-                />
+                {isProductColorImageUpload.length === 0 &&
+                  old_product_colors.length === 0 && (
+                    <div class="form-group">
+                      {productInit.inventory ? (
+                        <>
+                          <div class="col-md-3">
+                            <h4>Kho</h4>
+                            <input
+                              readOnly
+                              value={productInit.inventory}
+                              type="number"
+                              class="form-control"
+                              name="p_inventory"
+                              required
+                            />
+                          </div>
+                          <div class="col-md-2">
+                            <button
+                              style={{ marginTop: "39.8px" }}
+                              onClick={() => {
+                                setProductInit((prev) => {
+                                  prev.addInventory = !prev.addInventory;
+                                  return { ...prev };
+                                });
+                              }}
+                              type="button"
+                              className="btn btn-success form-control"
+                            >
+                              Nhập thêm
+                            </button>
+                          </div>
+                          {productInit.addInventory && (
+                            <div
+                              style={{ marginTop: "39.8px" }}
+                              class="col-md-2"
+                            >
+                              <input
+                                type="number"
+                                required
+                                class="form-control"
+                                name="p_inventory"
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div class="col-md-3">
+                          <h4>Kho</h4>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="p_inventory"
+                            required
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                <div className="form-group">
+                  <div className="col-md-12">
+                    <input
+                      onClick={() => {
+                        let key = uuid();
+                        setProductColorsImages((prev) => {
+                          return [
+                            ...prev,
+                            {
+                              key: key,
+                              product_color: null,
+                              product_color_gallery: [],
+                            },
+                          ];
+                        });
+                        setProductColorsImagesPreview((prev) => {
+                          return [
+                            ...prev,
+                            {
+                              key: key,
+                              product_color: null,
+                              product_color_gallery: [],
+                            },
+                          ];
+                        });
+                        setIsProductColorImageUpload((prev) => {
+                          return [...prev, key];
+                        });
+                      }}
+                      type="button"
+                      value="Thêm ảnh màu"
+                      className="btn btn-primary"
+                    />
+                    <span style={{ margin: "0 10px" }}>Hoặc</span>
+                    <input
+                      onClick={() => {
+                        setIsGalleryUpload(true);
+                      }}
+                      type="button"
+                      value="Thêm bộ sưu tập"
+                      className="btn btn-primary"
+                    />
+                  </div>
+                </div>
 
                 {isGalleryUpload && (
                   <>
@@ -1036,7 +1099,7 @@ const Edit = () => {
                               type="file"
                               className="form-control"
                               onChange={(e) => {
-                                handleNewColorUpload(item.id_color, e);
+                                handleNewColorUpload(item.color.id, e);
                               }}
                             />
                             <>
@@ -1047,20 +1110,27 @@ const Edit = () => {
                                 alt=""
                               />
                               <input
-                                style={{ width: "100px", textAlign: "center" }}
+                                style={{
+                                  width: "100%",
+                                  textAlign: "center",
+                                }}
                                 type="text"
                                 className="form-control"
                                 placeholder="Tên màu"
                                 defaultValue={item.color.color_name}
-                                name={
-                                  "color_name_of_" +
-                                  item.id_color
-                                    .replaceAll("/", "-")
-                                    .replace(".", "--")
-                                }
+                                name={`color_name_of_${item.color.id}`}
                               />
                             </>
                           </div>
+                          <input
+                            type="button"
+                            className="btn btn-danger"
+                            value="Bỏ"
+                            style={{ width: "100%" }}
+                            onClick={(e) =>
+                              handleDeleteProductColor(item.color.id, e)
+                            }
+                          />
                         </div>
                         <div class="col-md-8">
                           <h4>Tải bộ sưu tập ảnh màu</h4>
@@ -1070,7 +1140,7 @@ const Edit = () => {
                               multiple
                               className="form-control"
                               onChange={(e) => {
-                                handleNewGalleryUpload(item.id_color, e);
+                                handleNewGalleryUpload(item.color.id, e);
                               }}
                             />
                           </div>
@@ -1086,7 +1156,7 @@ const Edit = () => {
                                       <button
                                         onClick={(e) => {
                                           handleDeleteColorGalleryImage(
-                                            item.id_color,
+                                            item.color.id,
                                             gallery_item.image_path,
                                             e
                                           );
@@ -1115,16 +1185,36 @@ const Edit = () => {
                             })}
                           </ul>
                         </div>
-                        <div className="col-md-2" style={{ marginTop: "40px" }}>
+                        <div className="col-md-2">
+                          <h4>Kho</h4>
                           <input
-                            type="button"
-                            className="btn btn-danger"
-                            value="Bỏ"
-                            style={{ width: "100%" }}
-                            onClick={(e) =>
-                              handleDeleteProductColor(item.id_color, e)
-                            }
+                            readOnly={true}
+                            value={item.inventory}
+                            type="number"
+                            required
+                            class="form-control"
                           />
+                          <button
+                            onClick={() => {
+                              item.add = !item.add;
+                              setOldProductColors((prev) => {
+                                return [...prev];
+                              });
+                            }}
+                            type="button"
+                            className="btn btn-success form-control"
+                          >
+                            Nhập thêm
+                          </button>
+
+                          {item.add && (
+                            <input
+                              type="number"
+                              required
+                              class="form-control"
+                              name={`p_inventory_of_color_${item.color.id}`}
+                            />
+                          )}
                         </div>
                       </div>
                     </>
@@ -1143,7 +1233,7 @@ const Edit = () => {
                                   handleProductColorUploaded(e, key)
                                 }
                                 type="file"
-                                name="p_image"
+                                required
                                 className="form-control"
                               />
                               {product_colors_images_preview.find(
@@ -1166,6 +1256,7 @@ const Edit = () => {
                                       textAlign: "center",
                                     }}
                                     type="text"
+                                    required
                                     className="form-control"
                                     placeholder="Tên màu"
                                     name={"p_color_image_name_" + index}
@@ -1173,6 +1264,29 @@ const Edit = () => {
                                 </>
                               )}
                             </div>
+                            <input
+                              type="button"
+                              className="btn btn-danger"
+                              value="Bỏ"
+                              style={{ width: "100%" }}
+                              onClick={() => {
+                                setProductColorsImagesPreview((prev) => {
+                                  return [...prev].filter(
+                                    (item) => item.key !== key
+                                  );
+                                });
+                                setProductColorsImages((prev) => {
+                                  return [...prev].filter(
+                                    (item) => item.key !== key
+                                  );
+                                });
+                                setIsProductColorImageUpload((prev) => {
+                                  return [...prev].filter(
+                                    (item) => item !== key
+                                  );
+                                });
+                              }}
+                            />
                           </div>
                           <div class="col-md-8">
                             <h4>Tải bộ sưu tập ảnh màu</h4>
@@ -1229,32 +1343,13 @@ const Edit = () => {
                                 })}
                             </ul>
                           </div>
-                          <div
-                            className="col-md-2"
-                            style={{ marginTop: "40px" }}
-                          >
+                          <div className="col-md-2">
+                            <h4>Kho</h4>
                             <input
-                              type="button"
-                              className="btn btn-danger"
-                              value="Bỏ"
-                              style={{ width: "100%" }}
-                              onClick={() => {
-                                setProductColorsImagesPreview((prev) => {
-                                  return [...prev].filter(
-                                    (item) => item.key !== key
-                                  );
-                                });
-                                setProductColorsImages((prev) => {
-                                  return [...prev].filter(
-                                    (item) => item.key !== key
-                                  );
-                                });
-                                setIsProductColorImageUpload((prev) => {
-                                  return [...prev].filter(
-                                    (item) => item !== key
-                                  );
-                                });
-                              }}
+                              type="number"
+                              required
+                              class="form-control"
+                              name={`p_inventory_of_color_${index}`}
                             />
                           </div>
                         </div>

@@ -39,7 +39,6 @@ const Role = () => {
         .post(`${process.env.REACT_APP_API_ENDPOINT}/roles`, formData)
         .then((res) => {
           setIsProcessing(false);
-          console.log(res);
           setRoles((prev) => {
             return [...prev, res.data];
           });
@@ -58,7 +57,6 @@ const Role = () => {
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/roles/` + id)
       .then((res) => {
         setIsProcessing(false);
-        console.log(res);
         setRoles((prev) => {
           return prev.filter((item) => item.id !== id);
         });

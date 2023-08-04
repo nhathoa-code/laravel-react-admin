@@ -61,7 +61,7 @@ const Children = () => {
         });
     } else {
       axios
-        .post("http://127.0.0.1:8000/api/categories", formData)
+        .post(`${process.env.REACT_APP_API_ENDPOINT}/categories`, formData)
         .then((res) => {
           setIsProcessing(false);
 
@@ -81,19 +81,20 @@ const Children = () => {
 
   const handleDelete = (id) => {
     setIsProcessing(true);
-    axios.delete("http://127.0.0.1:8000/api/categories/" + id).then((res) => {
-      setIsProcessing(false);
+    axios
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}/categories/` + id)
+      .then((res) => {
+        setIsProcessing(false);
 
-      setChildren((prev) => {
-        return [...prev].filter((item) => item.id !== id);
+        setChildren((prev) => {
+          return [...prev].filter((item) => item.id !== id);
+        });
       });
-    });
   };
 
   const handleEdit = (id) => {
     setIsEditMode(true);
     let category = children.find((item) => item.id === id);
-    console.log(category);
     setInputs({
       name: category.name,
       icon: category.icon,
@@ -113,7 +114,9 @@ const Children = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     axios
-      .get("http://127.0.0.1:8000/api/categories/children/" + parent_id)
+      .get(
+        `${process.env.REACT_APP_API_ENDPOINT}/categories/children/` + parent_id
+      )
       .then((res) => {
         setChildren(res.data.children);
         setIsLoading(false);

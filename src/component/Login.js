@@ -23,7 +23,6 @@ const Login = () => {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err.message);
         setUnauthorized({ message: err.response.data.message });
         setIsProcessing(false);
       });

@@ -8,7 +8,6 @@ const Coupons = () => {
   const [coupons, setCoupons] = useState([]);
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_ENDPOINT}/coupons`).then((res) => {
-      console.log(res.data);
       setIsLoading(false);
       setCoupons(res.data);
     });
@@ -17,9 +16,7 @@ const Coupons = () => {
   const handleDelete = (id) => {
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/coupons/${id}`)
-      .then((res) => {
-        console.log(res.data);
-      });
+      .then((res) => {});
   };
 
   return (

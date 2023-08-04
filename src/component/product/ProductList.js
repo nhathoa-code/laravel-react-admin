@@ -19,7 +19,6 @@ const ProductList = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/products?admin`)
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data.data);
         setLinks(res.data.links);
         setTotal(res.data.total);
@@ -28,7 +27,6 @@ const ProductList = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/all_categories`)
       .then((res) => {
-        console.log(res.data);
         setCategories(loopCategories(res.data));
       });
   }, []);
@@ -168,7 +166,6 @@ const ProductList = () => {
           })
           .then((res) => {
             setIsProcessing(false);
-            console.log(res.data);
             setProducts(Object.values(res.data.data));
             setLinks(res.data.links);
             setTotal(res.data.total);
@@ -186,7 +183,6 @@ const ProductList = () => {
             setProducts(res.data.data);
             setLinks(res.data.links);
             setTotal(res.data.total);
-            console.log(res.data);
           });
         break;
       default:
@@ -196,7 +192,6 @@ const ProductList = () => {
           })
           .then((res) => {
             setIsProcessing(false);
-            console.log(res.data);
             setProducts(res.data.data);
             setLinks(res.data.links);
             setTotal(res.data.total);
@@ -246,7 +241,6 @@ const ProductList = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setIsLoading(false);
         setProducts(res.data.data);
         setLinks(res.data.links);
@@ -274,7 +268,6 @@ const ProductList = () => {
         setProducts(res.data.data);
         setLinks(res.data.links);
         setTotal(res.data.total);
-        console.log(res.data);
       });
   };
 

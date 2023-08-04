@@ -21,7 +21,6 @@ const Edit = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/coupons/${id}`)
       .then((res) => {
-        console.log(res.data);
         setIsLoading(false);
         setCoupon(res.data);
         setStartDate(new Date(res.data.start));
@@ -58,6 +57,9 @@ const Edit = () => {
       .then((res) => {
         setIsProcessing(false);
         alert(res.data.message);
+      })
+      .catch(() => {
+        setIsProcessing(false);
       });
   };
 

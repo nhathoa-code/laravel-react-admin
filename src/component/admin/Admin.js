@@ -32,18 +32,17 @@ const Admin = () => {
           const roles_checked = document.querySelectorAll(
             `input[type=checkbox]:checked`
           );
+
           for (let i = 0; i < roles_checked.length; i++) {
-            edited_roles.push({ name: roles_checked[i].dataset.name });
+            edited_roles.push(roles_checked[i].dataset.name);
           }
-          if (admin.roles.includes("Administrator")) {
-            setAdmins((prev) => {
-              const edited_admin = prev.find((item) => item.id === adminId);
-              edited_admin.name = res.data.edited_admin.name;
-              edited_admin.username = res.data.edited_admin.username;
-              edited_admin.roles = edited_roles;
-              return [...prev];
-            });
-          }
+          setAdmins((prev) => {
+            const edited_admin = prev.find((item) => item.id === adminId);
+            edited_admin.name = res.data.edited_admin.name;
+            edited_admin.username = res.data.edited_admin.username;
+            edited_admin.roles = edited_roles;
+            return [...prev];
+          });
           setRoles((prev) => {
             return prev.map((item) => {
               item.checked = false;
@@ -67,7 +66,7 @@ const Admin = () => {
             `input[type=checkbox]:checked`
           );
           for (let i = 0; i < roles_checked.length; i++) {
-            chosen_roles.push({ name: roles_checked[i].dataset.name });
+            chosen_roles.push(roles_checked[i].dataset.name);
           }
           setAdmins((prev) => {
             return [...prev, { ...res.data.new_admin, roles: chosen_roles }];
@@ -118,10 +117,9 @@ const Admin = () => {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_ENDPOINT}/roles`).then((res) => {
-      console.log(res.data);
       setRoles(res.data);
     });
-    axios.get("http://127.0.0.1:8000/api/admins").then((res) => {
+    axios.get(`${process.env.REACT_APP_API_ENDPOINT}/admins`).then((res) => {
       console.log(res.data);
       setAdmins(
         res.data.map((item) => {
@@ -363,11 +361,19 @@ const Admin = () => {
                             for={`role${item.id}`}
                           >
                             <input
+                              checked={item.checked}
                               class="form-check-input"
                               type="checkbox"
                               id={`role${item.id}`}
                               name="roles[]"
+                              data-name={item.name}
                               value={item.id}
+                              onChange={() => {
+                                item.checked = !item.checked;
+                                setRoles((prev) => {
+                                  return [...prev];
+                                });
+                              }}
                             />
                             {item.name}
                           </label>

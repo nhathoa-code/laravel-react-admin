@@ -34,6 +34,7 @@ import Coupon from "./component/coupon/Coupon";
 import Coupons from "./component/coupon/Coupons";
 import CouponEdit from "./component/coupon/Edit";
 import Login from "./component/Login";
+import FlashSale from "./component/flash_sale/FlashSale";
 
 function App() {
   const { isLogginChecked } = useContext(AuthContext);
@@ -80,6 +81,7 @@ function App() {
                 />
 
                 <Route path="reviews" element={<Reviews />} />
+                <Route path="flashsale" element={<FlashSale />} />
                 <Route
                   path="reviews/product/:product_id"
                   element={<ProductReviews />}

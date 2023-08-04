@@ -9,7 +9,6 @@ const Reviews = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/reviews_to_prove`)
       .then((res) => {
-        console.log(res.data);
         setReviewsToProve(res.data);
         setIsLoading(false);
       });

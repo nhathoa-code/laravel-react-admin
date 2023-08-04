@@ -97,7 +97,7 @@ const AttributeValue = () => {
   useEffect(() => {
     axios
       .get(
-        "http://127.0.0.1:8000/api/category_attribute_values/" +
+        `${process.env.REACT_APP_API_ENDPOINT}/category_attribute_values/` +
           category_attribute_id
       )
       .then((res) => {

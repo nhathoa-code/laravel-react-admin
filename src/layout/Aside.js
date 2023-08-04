@@ -8,20 +8,6 @@ const Aside = () => {
       id="page-sidebar"
       class="collapse navbar-collapse navbar-main-collapse"
     >
-      {/* <form id="sidebar-search" action="page_search_results.html" method="post">
-        <div class="input-group">
-          <input
-            type="text"
-            id="sidebar-search-term"
-            name="sidebar-search-term"
-            placeholder="Search.."
-          />
-          <button>
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </form> */}
-
       <nav id="primary-nav">
         <ul>
           <li>
@@ -230,6 +216,18 @@ const Aside = () => {
                 </Link>
               </li>
             </ul>
+          </li>
+          <li>
+            <Link
+              style={
+                location.pathname === "/flashsale"
+                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  : {}
+              }
+              to={"flashsale"}
+            >
+              FLASH SALE
+            </Link>
           </li>
         </ul>
       </nav>

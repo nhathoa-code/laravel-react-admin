@@ -13,7 +13,6 @@ const Posts = () => {
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`)
       .then((res) => {
-        console.log(res.data.message);
         setPosts((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
@@ -28,7 +27,6 @@ const Posts = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setPosts(res.data);
         setIsLoading(false);
       });

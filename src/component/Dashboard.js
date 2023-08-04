@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Processing from "./process_icon/ProcessingIcon";
+import Loader from "./loader/Loader";
 import axios from "./Axios";
 import DatePicker from "rsuite/DatePicker";
 import moment from "moment";
@@ -76,15 +76,20 @@ var getDaysArray = function (year, month) {
 
 const Dashboard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
+  const [orders_by_time, setOrdersByTime] = useState(null);
   const [revenue, setRevenue] = useState(null);
-  const [type_of_time, setTypeOfTime] = useState(null);
+  const [revenue_by_time, setRevenueByTime] = useState(null);
+  const [type_of_time, setTypeOfTime] = useState("date");
   const [dataset, setDataSet] = useState(null);
   useEffect(() => {
+    setIsLoading(true);
+    handlePickDate(new Date());
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/statistics`)
       .then((res) => {
-        console.log(res.data);
+        setIsLoading(false);
         setData(res.data);
         let completed_orders = res.data.total_completed_orders;
         let revenue = 0;
@@ -117,8 +122,15 @@ const Dashboard = () => {
       })
       .then((res) => {
         setIsProcessing(false);
-        console.log(res.data);
         const data = res.data;
+        setOrdersByTime(data.length);
+        setRevenueByTime(() => {
+          let revenue = 0;
+          data.forEach((item) => {
+            revenue += item.amount_pay;
+          });
+          return revenue;
+        });
         setDataSet({
           labels: labels,
           datasets: [
@@ -156,7 +168,6 @@ const Dashboard = () => {
   };
 
   const handlePickDate = (date) => {
-    document.querySelector("input.rs-picker-toggle-textbox").value = null;
     let Date = moment(date).format("YYYY-MM-DD");
     const labels = [
       "00:00",
@@ -194,8 +205,15 @@ const Dashboard = () => {
       })
       .then((res) => {
         setIsProcessing(false);
-        console.log(res.data);
         const data = res.data;
+        setOrdersByTime(data.length);
+        setRevenueByTime(() => {
+          let revenue = 0;
+          data.forEach((item) => {
+            revenue += item.amount_pay;
+          });
+          return revenue;
+        });
         setDataSet({
           labels: labels,
           datasets: [
@@ -251,8 +269,15 @@ const Dashboard = () => {
       })
       .then((res) => {
         setIsProcessing(false);
-        console.log(res.data);
         const data = res.data;
+        setOrdersByTime(data.length);
+        setRevenueByTime(() => {
+          let revenue = 0;
+          data.forEach((item) => {
+            revenue += item.amount_pay;
+          });
+          return revenue;
+        });
         setDataSet({
           labels: labels,
           datasets: [
@@ -296,204 +321,184 @@ const Dashboard = () => {
   return (
     <>
       {isProcessing && <Processing />}
+      {isLoading && <Loader />}
       {data && (
         <div id="statistics">
-          {/* <ul id="nav-info" class="clearfix">
-            <li>
-              <Link href="index.html">
-                <i class="fa fa-home"></i>
-              </Link>
-            </li>
-            <li class="active">
-              <Link to="/">Dashboard</Link>
-            </li>
-          </ul> */}
-
           <div class="dash-tiles row">
             <div class="col-sm-3">
-              <div class="dash-tile dash-tile-ocean clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <div class="btn-group">
-                      <a
-                        href="javascript:void(0)"
-                        class="btn btn-default"
-                        data-toggle="tooltip"
-                        title=""
-                        data-original-title="Statistics"
-                      >
-                        <i class="fa fa-bar-chart-o"></i>
-                      </a>
-                    </div>
-                  </div>
-                  Người dùng
-                </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-users"></i>
-                </div>
-                <div class="dash-tile-text">{data.total_users}</div>
-              </div>
-
-              <div class="dash-tile dash-tile-leaf clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <span class="dash-tile-options">
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-default"
-                      data-toggle="popover"
-                      data-placement="top"
-                      data-content="$500 (230 Sales)"
-                      title=""
-                      data-original-title="Today's profit"
-                    >
-                      <i class="fa fa-bar-chart-o"></i>
-                      {/* <i class="fa fa-money"></i> */}
-                    </a>
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Người dùng
                   </span>
-                  Người mua
                 </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-users"></i>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">{data.total_users}</span>
+                    </span>
+                  </label>
                 </div>
-                <div class="dash-tile-text">{data.total_bought_users}</div>
               </div>
-            </div>
-
-            <div class="col-sm-3">
-              <div class="dash-tile dash-tile-flower clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <div class="btn-group">
-                      <a
-                        href="javascript:void(0)"
-                        class="btn btn-default"
-                        data-toggle="tooltip"
-                        title=""
-                        data-original-title="Statistics"
-                      >
-                        <i class="fa fa-bar-chart-o"></i>
-                      </a>
-                    </div>
-                  </div>
-                  Đơn hàng
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Người mua
+                  </span>
                 </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-shopping-cart"></i>
-                </div>
-                <div class="dash-tile-text">{data.total_orders}</div>
-              </div>
-
-              <div class="dash-tile dash-tile-fruit clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-default"
-                      data-toggle="tooltip"
-                      title=""
-                      data-original-title="View popular downloads"
-                    >
-                      <i class="fa fa-bar-chart-o"></i>
-                    </a>
-                  </div>
-                  Đơn hàng hoàn thành
-                </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-shopping-cart"></i>
-                </div>
-                <div class="dash-tile-text">
-                  {data.total_completed_orders.length}
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">
+                        {data.total_bought_users}
+                      </span>
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
 
             <div class="col-sm-3">
-              <div class="dash-tile dash-tile-oil clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <div class="btn-group">
-                      <a
-                        href="javascript:void(0)"
-                        class="btn btn-default"
-                        data-toggle="tooltip"
-                        title=""
-                        data-original-title="Statistics"
-                      >
-                        <i class="fa fa-bar-chart-o"></i>
-                      </a>
-                    </div>
-                  </div>
-                  Sản phẩm
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Đơn hàng
+                  </span>
                 </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-check-square"></i>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">{data.total_orders}</span>
+                    </span>
+                  </label>
                 </div>
-                <div class="dash-tile-text">{data.total_products}</div>
               </div>
 
-              <div class="dash-tile dash-tile-dark clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-default"
-                      data-toggle="tooltip"
-                      title=""
-                      data-original-title="Monthly report"
-                    >
-                      <i class="fa fa-bar-chart-o"></i>
-                    </a>
-                  </div>
-                  Doanh số
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Đơn hàng hoàn thành
+                  </span>
                 </div>
-                <div class="dash-tile-text">
-                  {new Intl.NumberFormat({ style: "currency" }).format(revenue)}
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">
+                        {data.total_completed_orders.length}
+                      </span>
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
 
             <div class="col-sm-3">
-              <div class="dash-tile dash-tile-balloon clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-default"
-                      data-toggle="tooltip"
-                      title=""
-                      data-original-title="Statistics"
-                    >
-                      <i class="fa fa-bar-chart-o"></i>
-                    </a>
-                  </div>
-                  Danh mục
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Sản phẩm
+                  </span>
                 </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-pencil-square"></i>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">{data.total_products}</span>
+                    </span>
+                  </label>
                 </div>
-                <div class="dash-tile-text">{data.total_categories}</div>
               </div>
 
-              <div class="dash-tile dash-tile-doll clearfix animation-pullDown">
-                <div class="dash-tile-header">
-                  <div class="dash-tile-options">
-                    <a
-                      href="javascript:void(0)"
-                      class="btn btn-default"
-                      data-toggle="tooltip"
-                      title=""
-                      data-original-title="Open tickets"
-                    >
-                      <i class="fa fa-bar-chart-o"></i>
-                    </a>
-                  </div>
-                  Lượt truy cập
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Doanh số
+                  </span>
                 </div>
-                <div class="dash-tile-icon">
-                  <i class="fa fa-globe"></i>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="">
+                    <span class="currency">
+                      <span class="currency-symbol">₫</span>
+                      <span class="currency-value">
+                        {new Intl.NumberFormat({ style: "currency" }).format(
+                          revenue
+                        )}
+                      </span>
+                    </span>
+                  </label>
                 </div>
-                <div class="dash-tile-text">
-                  {data.data_statistics.access_times}
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Doanh mục
+                  </span>
+                </div>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">
+                        {data.total_categories}
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div
+                data-v-ca3d5102=""
+                data-v-64252556=""
+                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                style={{ marginLeft: "16px" }}
+              >
+                <div data-v-ca3d5102="" class="title">
+                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                    Lượt truy cập
+                  </span>
+                </div>
+                <div data-v-ca3d5102="" class="value">
+                  <label data-v-ca3d5102="" class="number">
+                    <span class="number">
+                      <span class="currency-value">
+                        {data.data_statistics.access_times}
+                      </span>
+                    </span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -503,7 +508,7 @@ const Dashboard = () => {
               <div class="dash-tile dash-tile-2x">
                 <div class="dash-tile-header">
                   <div>
-                    <i class="fa fa-bar-chart-o"></i> Thống kê theo:{" "}
+                    Thời gian:{" "}
                     <button
                       onClick={() => handleSetTypeOfTime("date")}
                       class={`btn-type-of-time${
@@ -537,11 +542,13 @@ const Dashboard = () => {
                           format="dd-MM-yyyy"
                           style={{ width: 450 }}
                           onChange={handlePickDate}
+                          defaultValue={new Date()}
                         />
                       ) : type_of_time === "week" ? (
                         <DatePicker
                           className="week"
                           placeholder="Chọn tuần"
+                          format="dd-MM-yyyy"
                           showWeekNumbers
                           isoWeek
                           style={{ width: 450 }}
@@ -559,6 +566,51 @@ const Dashboard = () => {
                   )}
                 </div>
                 <div class="dash-tile-content">
+                  <div style={{ paddingLeft: "0" }} class="col-sm-2">
+                    <div
+                      data-v-ca3d5102=""
+                      data-v-64252556=""
+                      class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                    >
+                      <div data-v-ca3d5102="" class="title">
+                        <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                          Đơn hàng
+                        </span>
+                      </div>
+                      <div data-v-ca3d5102="" class="value">
+                        <label data-v-ca3d5102="" class="number">
+                          <span class="number">
+                            <span class="currency-value">{orders_by_time}</span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ paddingLeft: "30px" }} class="col-sm-2">
+                    <div
+                      data-v-ca3d5102=""
+                      data-v-64252556=""
+                      class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                    >
+                      <div data-v-ca3d5102="" class="title">
+                        <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                          Doanh số
+                        </span>
+                      </div>
+                      <div data-v-ca3d5102="" class="value">
+                        <label data-v-ca3d5102="" class="">
+                          <span class="currency">
+                            <span class="currency-symbol">₫</span>
+                            <span class="currency-value">
+                              {new Intl.NumberFormat({
+                                style: "currency",
+                              }).format(revenue_by_time)}
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   {dataset && <Line options={options} data={dataset} />}
                 </div>
               </div>
@@ -577,7 +629,7 @@ const Dashboard = () => {
                       position: "relative",
                       overflow: "hidden",
                       width: "auto",
-                      height: "330px",
+                      height: "340px",
                     }}
                   >
                     <div
@@ -585,7 +637,7 @@ const Dashboard = () => {
                       style={{
                         overflow: "hidden",
                         width: "auto",
-                        height: "330px",
+                        height: "340px",
                       }}
                     >
                       {data.best_sold_products.map((item) => {
@@ -641,7 +693,7 @@ const Dashboard = () => {
                       position: "relative",
                       overflow: "hidden",
                       width: "auto",
-                      height: "330px",
+                      height: "340px",
                     }}
                   >
                     <div
@@ -649,7 +701,7 @@ const Dashboard = () => {
                       style={{
                         overflow: "hidden",
                         width: "auto",
-                        height: "330px",
+                        height: "340px",
                       }}
                     >
                       {data.most_viewed_products.map((item) => {

@@ -48,7 +48,7 @@ const PostCategory = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete("http://127.0.0.1:8000/api/post/categories/" + id)
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}/post/categories/` + id)
       .then((res) => {
         setPostCategories((prev) => {
           return [...prev].filter((item) => item.id !== id);
@@ -65,10 +65,12 @@ const PostCategory = () => {
   };
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/post/categories").then((res) => {
-      setPostCategories(res.data);
-      setIsLoading(false);
-    });
+    axios
+      .get(`${process.env.REACT_APP_API_ENDPOINT}/post/categories`)
+      .then((res) => {
+        setPostCategories(res.data);
+        setIsLoading(false);
+      });
   }, []);
   return (
     <>

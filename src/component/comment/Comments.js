@@ -10,7 +10,6 @@ const Comments = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/comments_to_reply`)
       .then((res) => {
-        console.log(res.data);
         setCommentsToReply(res.data);
         setIsLoading(false);
       });

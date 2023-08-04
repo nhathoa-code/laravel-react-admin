@@ -11,7 +11,6 @@ const Banner = () => {
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_ENDPOINT}/banners`).then((res) => {
-      console.log(res.data);
       setBanners(res.data);
       setIsLoading(false);
     });
@@ -63,8 +62,6 @@ const Banner = () => {
       axios
         .post(`${process.env.REACT_APP_API_ENDPOINT}/banners`, formData)
         .then((res) => {
-          console.log(res.data);
-
           setBanners((prev) => {
             return [...prev, res.data];
           });

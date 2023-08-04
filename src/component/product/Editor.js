@@ -19,7 +19,6 @@ class MyUploadAdapter {
           axios
             .post(`${process.env.REACT_APP_API_ENDPOINT}/upload`, formData)
             .then((res) => {
-              console.log(res.data);
               if (localStorage.getItem("description_images")) {
                 let description_images = JSON.parse(
                   localStorage.getItem("description_images")
@@ -41,7 +40,6 @@ class MyUploadAdapter {
               });
             })
             .catch((err) => {
-              console.log(err);
               reject("not ok");
             });
         })

@@ -14,9 +14,17 @@ const OrderDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isProcesing, setIsProcessing] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
-  const [statusIndex, setStatusIndex] = useState(0);
+  const [currentStatus, setCurrentStatus] = useState(0);
 
-  const status_list = ["Đã xác nhận", "Đang giao", "Hoàn thành"];
+  const status_list = [
+    { status_code: 1, status: "Chờ xác nhận" },
+    { status_code: 2, status: "Chờ lấy hàng" },
+    { status_code: 3, status: "Đang giao" },
+    { status_code: 4, status: "Đã giao" },
+    { status_code: 5, status: "Chờ đối soát" },
+    { status_code: 6, status: "Hoàn thành" },
+    { status_code: 7, status: "Đã hủy" },
+  ];
 
   const handleUpdateQuantity = (id, sign) => {
     setOrderDetails((prev) => {
@@ -56,16 +64,17 @@ const OrderDetail = () => {
 
   const handleUpdateStatus = () => {
     setIsProcessing(true);
+    console.log(document.getElementById("status").value);
     axios
       .put(`${process.env.REACT_APP_API_ENDPOINT}/orders/${order.id}`, {
-        status: document.getElementById("status").value,
+        status_code: document.getElementById("status").value,
       })
       .then((res) => {
         setIsProcessing(false);
         setOrder((prev) => {
-          if (res.data.status === "Hoàn thành") {
+          if (res.data.status == 4) {
             let data = {
-              status: res.data.status,
+              admin_status: res.data.status,
             };
             if (res.data.pttt === "cod") {
               data.paid_status = "Đã thanh toán";
@@ -75,12 +84,10 @@ const OrderDetail = () => {
               ...data,
             };
           } else {
-            return { ...prev, status: res.data.status };
+            return { ...prev, admin_status: res.data.status };
           }
         });
-        setStatusIndex(
-          status_list.findIndex((item) => item === res.data.status)
-        );
+        setCurrentStatus(res.data.status);
       });
   };
 
@@ -100,14 +107,12 @@ const OrderDetail = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/orders/${order_id}`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.order);
         setOrder(res.data.order);
         if (res.data.order.coupons) {
           setCoupons(JSON.parse(res.data.order.coupons));
         }
-        setStatusIndex(
-          status_list.findIndex((item) => item === res.data.order.status)
-        );
+        setCurrentStatus(res.data.order.admin_status);
         setBuyerInfo(JSON.parse(res.data.order.buyer_info));
         setOrderDetails(res.data.order_details);
         setIsLoading(false);
@@ -200,7 +205,12 @@ const OrderDetail = () => {
                           </td>
                           <td>
                             <span class="label label-success status">
-                              {order.status}
+                              {
+                                status_list.find(
+                                  (Item) =>
+                                    Item.status_code == order.admin_status
+                                ).status
+                              }
                             </span>
                           </td>
                         </tr>
@@ -483,72 +493,74 @@ const OrderDetail = () => {
                       </tr>
                     </tbody>
                   </table>
-                  {order.status !== "Hoàn thành" &&
-                    order.status !== "Đã hủy" && (
-                      <>
-                        {" "}
-                        <div
-                          class="clearfix"
-                          style={{ width: "98%", marginBottom: "20px" }}
-                        >
-                          {isUpdateMode ? (
-                            <>
-                              <button
-                                style={{ float: "right" }}
-                                className="btn btn-danger"
-                                onClick={() => {
-                                  setIsUpdateMode(false);
-                                  setOrderDetails(
-                                    JSON.parse(
-                                      localStorage.getItem("order_details")
-                                    )
-                                  );
-                                }}
-                              >
-                                Hủy
-                              </button>
-                              <button
-                                onClick={handleUpdateOrder}
-                                style={{ float: "right" }}
-                                className="btn btn-success"
-                              >
-                                Xác nhận
-                              </button>
-                            </>
-                          ) : (
-                            <a
-                              onClick={() => {
-                                setIsUpdateMode(true);
-                              }}
+                  {order.admin_status != 6 && order.admin_status != 7 && (
+                    <>
+                      {/* <div
+                        class="clearfix"
+                        style={{ width: "98%", marginBottom: "20px" }}
+                      >
+                        {isUpdateMode ? (
+                          <>
+                            <button
                               style={{ float: "right" }}
-                              href="javascript:void(0)"
+                              className="btn btn-danger"
+                              onClick={() => {
+                                setIsUpdateMode(false);
+                                setOrderDetails(
+                                  JSON.parse(
+                                    localStorage.getItem("order_details")
+                                  )
+                                );
+                              }}
                             >
-                              Sửa đơn
-                            </a>
-                          )}
-                        </div>
-                        <div class="clearfix" style={{ width: "98%" }}>
+                              Hủy
+                            </button>
+                            <button
+                              onClick={handleUpdateOrder}
+                              style={{ float: "right" }}
+                              className="btn btn-success"
+                            >
+                              Xác nhận
+                            </button>
+                          </>
+                        ) : (
                           <a
+                            onClick={() => {
+                              setIsUpdateMode(true);
+                            }}
+                            style={{ float: "right" }}
                             href="javascript:void(0)"
-                            onClick={handleUpdateStatus}
-                            class="update btn btn-success pull-right push"
                           >
-                            Cập nhật trạng thái
+                            Sửa đơn
                           </a>
-                          <div class="form-group">
-                            <div class="col-md-4">
-                              <select id="status" class="form-control">
-                                {status_list.map((item, index) => {
-                                  if (index > statusIndex) {
-                                    return <option>{item}</option>;
-                                  }
-                                })}
-                              </select>
-                            </div>
+                        )}
+                      </div> */}
+                      <div class="clearfix" style={{ width: "98%" }}>
+                        <a
+                          href="javascript:void(0)"
+                          onClick={handleUpdateStatus}
+                          class="update btn btn-success pull-right push"
+                        >
+                          Cập nhật trạng thái
+                        </a>
+                        <div class="form-group">
+                          <div class="col-md-4">
+                            <select id="status" class="form-control">
+                              {status_list.map((item) => {
+                                if (item.status_code > currentStatus) {
+                                  return (
+                                    <option value={item.status_code}>
+                                      {item.status}
+                                    </option>
+                                  );
+                                }
+                              })}
+                            </select>
                           </div>
                         </div>
-                      </>
-                    )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
