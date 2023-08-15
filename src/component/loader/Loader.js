@@ -9,21 +9,21 @@ const Loader = ({ style = null }) => {
           cx="4"
           cy="6"
           r="4"
-          fill="#EE4D2D"
+          fill="#041e3a"
         ></circle>
         <circle
           class="stardust-spinner__spinner"
           cx="16"
           cy="6"
           r="4"
-          fill="#EE4D2D"
+          fill="#041e3a"
         ></circle>
         <circle
           class="stardust-spinner__spinner"
           cx="28"
           cy="6"
           r="4"
-          fill="#EE4D2D"
+          fill="#041e3a"
         ></circle>
       </svg>
     </div>

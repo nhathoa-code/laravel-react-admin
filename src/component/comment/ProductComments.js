@@ -362,7 +362,7 @@ const ProductComments = () => {
                               &nbsp;Trả lời
                             </div>
                             <a
-                              style={{ marginLeft: "10px" }}
+                              style={{ marginLeft: "10px", fontSize: "small" }}
                               href="javascript:void(0)"
                               onClick={() => handleDelete(null, item.id)}
                             >
@@ -447,7 +447,10 @@ const ProductComments = () => {
                                             &nbsp;Trả lời
                                           </div>
                                           <a
-                                            style={{ marginLeft: "10px" }}
+                                            style={{
+                                              marginLeft: "10px",
+                                              fontSize: "small",
+                                            }}
                                             href="javascript:void(0)"
                                             onClick={() =>
                                               handleDelete(

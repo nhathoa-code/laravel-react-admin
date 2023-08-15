@@ -118,7 +118,7 @@ const OrderList = () => {
 
   return (
     <>
-      <ul class="nav nav-pills">
+      <ul class="nav nav-pills order-status">
         <li
           style={{ cursor: "pointer" }}
           className={`${status === "0" ? "active" : ""}`}

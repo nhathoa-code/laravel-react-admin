@@ -170,6 +170,10 @@ const ProductsGroup = () => {
           });
           alert(res.data.message);
           document.querySelector("input[name=name]").value = "";
+        })
+        .catch((err) => {
+          setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
@@ -196,8 +200,9 @@ const ProductsGroup = () => {
           });
           document.querySelector("input[name=name]").value = "";
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
@@ -211,6 +216,10 @@ const ProductsGroup = () => {
         setProductsGroups((prev) => {
           return prev.filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

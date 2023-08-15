@@ -58,6 +58,10 @@ const Children = () => {
           setImagePreview(null);
           document.querySelector("form#form").reset();
           alert(res.data.message);
+        })
+        .catch((err) => {
+          setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
@@ -73,8 +77,9 @@ const Children = () => {
           document.querySelector("form#form").reset();
           setImagePreview(null);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
@@ -85,10 +90,13 @@ const Children = () => {
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/categories/` + id)
       .then((res) => {
         setIsProcessing(false);
-
         setChildren((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

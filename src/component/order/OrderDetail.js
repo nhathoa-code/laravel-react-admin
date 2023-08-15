@@ -64,7 +64,6 @@ const OrderDetail = () => {
 
   const handleUpdateStatus = () => {
     setIsProcessing(true);
-    console.log(document.getElementById("status").value);
     axios
       .put(`${process.env.REACT_APP_API_ENDPOINT}/orders/${order.id}`, {
         status_code: document.getElementById("status").value,
@@ -107,7 +106,6 @@ const OrderDetail = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/orders/${order_id}`)
       .then((res) => {
-        console.log(res.data.order);
         setOrder(res.data.order);
         if (res.data.order.coupons) {
           setCoupons(JSON.parse(res.data.order.coupons));
@@ -186,7 +184,9 @@ const OrderDetail = () => {
                             <strong>Mã đơn hàng</strong>
                           </td>
                           <td>
-                            <span class="label label-danger">#{order.id}</span>
+                            <address style={{ marginBottom: "0" }}>
+                              #{order.id}
+                            </address>
                           </td>
                         </tr>
                         <tr>
@@ -194,9 +194,9 @@ const OrderDetail = () => {
                             <strong>Ngày Đặt</strong>
                           </td>
                           <td>
-                            <span class="label label-warning">
+                            <address style={{ marginBottom: "0" }}>
                               {order.created_at}
-                            </span>
+                            </address>
                           </td>
                         </tr>
                         <tr>
@@ -204,14 +204,14 @@ const OrderDetail = () => {
                             <strong>Trạng thái</strong>
                           </td>
                           <td>
-                            <span class="label label-success status">
+                            <address style={{ marginBottom: "0" }}>
                               {
                                 status_list.find(
                                   (Item) =>
                                     Item.status_code == order.admin_status
                                 ).status
                               }
-                            </span>
+                            </address>
                           </td>
                         </tr>
                         <tr>
@@ -219,9 +219,9 @@ const OrderDetail = () => {
                             <strong>Phương Thức Thanh Toán</strong>
                           </td>
                           <td>
-                            <span class="label label-primary">
+                            <address style={{ marginBottom: "0" }}>
                               {order.pttt}
-                            </span>
+                            </address>
                           </td>
                         </tr>
                         <tr>
@@ -229,9 +229,9 @@ const OrderDetail = () => {
                             <strong>Trạng Thái Thanh toán</strong>
                           </td>
                           <td>
-                            <span class="label label-primary">
+                            <address style={{ marginBottom: "0" }}>
                               {order.paid_status}
-                            </span>
+                            </address>
                           </td>
                         </tr>
                       </tbody>

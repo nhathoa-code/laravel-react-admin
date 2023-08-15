@@ -40,6 +40,10 @@ const ProductReviews = () => {
         } else {
           navigate(`/reviews`);
         }
+      })
+      .catch((err) => {
+        setProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -58,6 +62,10 @@ const ProductReviews = () => {
         } else {
           navigate(`/reviews`);
         }
+      })
+      .catch((err) => {
+        setProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -157,11 +165,6 @@ const ProductReviews = () => {
                       class="btn-group"
                     >
                       <a
-                        style={{
-                          backgroundColor: "#5cb85c",
-                          marginRight: "10px",
-                          padding: "0 2px",
-                        }}
                         href="javascript:void(0)"
                         class="btn btn-xs btn-success"
                         onClick={() => handleProve(review.id)}
@@ -169,7 +172,6 @@ const ProductReviews = () => {
                         <i class="fa fa-pencil"></i> Duyệt
                       </a>
                       <a
-                        style={{ backgroundColor: "#d9534f", padding: "0 2px" }}
                         href="javascript:void(0)"
                         class="btn btn-xs btn-danger"
                         onClick={() => {

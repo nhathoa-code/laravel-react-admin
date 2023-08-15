@@ -437,7 +437,12 @@ var webApp = (function () {
         return $(this).next().is("ul");
       })
       .each(function (n, e) {
-        $(e).append("<span>" + $(e).next("ul").children().length + "</span>");
+        // $(e).append("<span>" + $(e).next("ul").children().length + "</span>");
+        $(e).append(
+          "<span>" +
+            '<i style="margin:0" class="fa fa-angle-down"></i>' +
+            "</span>"
+        );
       });
 
     // Accordion functionality

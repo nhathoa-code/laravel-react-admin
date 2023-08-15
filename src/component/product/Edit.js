@@ -815,9 +815,9 @@ const Edit = () => {
           alert("Sửa sản phẩm thành công");
         }, 10);
       })
-      .catch(() => {
+      .catch((err) => {
         setIsProcessing(false);
-        alert("co loi...");
+        alert(err.response.data.message);
       });
   };
 

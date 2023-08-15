@@ -156,10 +156,14 @@ const Admin = () => {
                       <td>
                         {admin.picture ? (
                           <img
+                            className="avatar"
                             src={`${process.env.REACT_APP_SERVER_ROOT_URL}/${admin.picture}`}
                           />
                         ) : (
-                          <img src="/img/template/avatar.png" />
+                          <img
+                            className="avatar"
+                            src="/img/template/avatar.png"
+                          />
                         )}
                       </td>
                       <td>{admin.name}</td>

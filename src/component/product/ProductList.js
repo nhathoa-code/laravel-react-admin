@@ -45,12 +45,18 @@ const ProductList = () => {
   };
 
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/products/${id}`)
       .then((res) => {
+        setIsProcessing(false);
         setProducts((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -302,7 +308,7 @@ const ProductList = () => {
           ) : (
             <>
               <h4>Tìm thấy: {total} sản phẩm</h4>
-              <table className="table">
+              <table style={{ tableLayout: "fixed" }} className="table">
                 <thead>
                   <tr>
                     <th
@@ -312,14 +318,16 @@ const ProductList = () => {
                       Ảnh
                     </th>
                     <th
-                      style={{ width: "20%" }}
+                      style={{ width: "25%" }}
                       className="hidden-xs hidden-sm"
                     >
                       Tên
                     </th>
                     <th className="hidden-xs hidden-sm">Giá</th>
                     <th className="hidden-xs hidden-sm">Giảm giá</th>
-                    <th className="text-center">Bài viết</th>
+                    <th style={{ width: "20%" }} className="text-center">
+                      Bài viết
+                    </th>
                     <th className="text-center">Thao tác</th>
                   </tr>
                 </thead>
@@ -329,12 +337,20 @@ const ProductList = () => {
                       <tr key={product.id}>
                         <td className="hidden-xs hidden-sm">
                           <img
-                            style={{ width: "100px", height: "auto" }}
+                            style={{
+                              width: "100px",
+                              height: "auto",
+                            }}
                             src={`${process.env.REACT_APP_SERVER_ROOT_URL}/${product.image}`}
                             alt=""
                           />
                         </td>
-                        <td className="hidden-xs hidden-sm">{product.name}</td>
+                        <td
+                          style={{ textOverflow: "ellipsis" }}
+                          className="hidden-xs hidden-sm"
+                        >
+                          {product.name}
+                        </td>
                         <td className="hidden-xs hidden-sm">
                           {new Intl.NumberFormat({
                             style: "currency",
@@ -413,7 +429,7 @@ const ProductList = () => {
       <div className="col-md-3">
         <div className="mb-3">
           <form onSubmit={handleFilter} id="categories_form">
-            <h4>Lọc sản phẩm theo danh mục</h4>
+            <h4 style={{ marginTop: "0px" }}>Lọc sản phẩm theo danh mục</h4>
             <ul style={{ listStyleType: "none" }}>
               {renderCategories(categories)}
             </ul>

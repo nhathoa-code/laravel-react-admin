@@ -2324,8 +2324,10 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-primary {
   color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
+  /* background-color: #337ab7;
+  border-color: #2e6da4; */
+  background-color: #041e3a;
+  border-color: #041e3a;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -2334,8 +2336,6 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color: #286090;
-  border-color: #204d74;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -2368,9 +2368,9 @@ fieldset[disabled] .btn-primary.active {
   background-color: #fff;
 }
 .btn-success {
-  color: #fff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  color: #fff !important;
+  background-color: #041e3a;
+  border-color: #041e3a;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -2379,8 +2379,6 @@ fieldset[disabled] .btn-primary.active {
 .btn-success.active,
 .open > .dropdown-toggle.btn-success {
   color: #fff;
-  background-color: #449d44;
-  border-color: #398439;
 }
 .btn-success:active,
 .btn-success.active,
@@ -2503,9 +2501,9 @@ fieldset[disabled] .btn-warning.active {
   background-color: #fff;
 }
 .btn-danger {
-  color: #fff;
-  background-color: #d9534f;
-  border-color: #d43f3a;
+  color: #333;
+  background-color: transparent;
+  border-color: #333;
 }
 .btn-danger:hover,
 .btn-danger:focus,
@@ -2513,9 +2511,9 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger:active,
 .btn-danger.active,
 .open > .dropdown-toggle.btn-danger {
-  color: #fff;
-  background-color: #c9302c;
-  border-color: #ac2925;
+  color: #333;
+  /* background-color: #c9302c;
+  border-color: #ac2925; */
 }
 .btn-danger:active,
 .btn-danger.active,
@@ -3242,7 +3240,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #fff;
-  background-color: #337ab7;
+  background-color: #041e3a;
 }
 .nav-stacked > li {
   float: none;
@@ -3312,7 +3310,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 50px;
+  /* min-height: 50px; */
   margin-bottom: 20px;
   border: 1px solid transparent;
 }

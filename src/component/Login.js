@@ -42,7 +42,7 @@ const Login = () => {
             }}
           />
         )}
-        <div
+        {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -72,7 +72,7 @@ const Login = () => {
               V
             </span>
           </div>
-        </div>
+        </div> */}
         <form
           id="login-form"
           action="index.html"

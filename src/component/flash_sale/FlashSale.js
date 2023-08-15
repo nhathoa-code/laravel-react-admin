@@ -30,6 +30,10 @@ const FlashSale = () => {
       .then((res) => {
         setIsProcessing(false);
         setSearchProducts(res.data);
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
   const handleSubmit = (e) => {
@@ -73,6 +77,10 @@ const FlashSale = () => {
       .then((res) => {
         setIsProcessing(false);
         alert(res.data.message);
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -105,7 +113,6 @@ const FlashSale = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/flash_sales`)
       .then((res) => {
-        console.log(res.data);
         if (res.data.length > 0) {
           setFlashSaledProducts(res.data);
           setStartTime(new Date(res.data[0].start_time));

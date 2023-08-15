@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "../Axios";
 import Loader from "../loader/Loader";
+import Processing from "../process_icon/ProcessingIcon";
 
 const Banner = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [banners, setBanners] = useState([]);
   const [banner_id, setBannerId] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -27,17 +29,24 @@ const Banner = () => {
   };
 
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/banners/${id}`)
       .then((res) => {
+        setIsProcessing(false);
         setBanners((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsProcessing(true);
     const formData = new FormData(document.querySelector("#form"));
     if (isEditMode) {
       formData.append("_method", "put");
@@ -47,6 +56,7 @@ const Banner = () => {
           formData
         )
         .then((res) => {
+          setIsProcessing(false);
           setBanners((prev) => {
             let banner = prev.find((item) => item.id === banner_id);
             banner.image = res.data.image;
@@ -57,16 +67,25 @@ const Banner = () => {
           document.querySelector("#form").reset();
           setImagePreview(null);
           setIsEditMode(false);
+        })
+        .catch((err) => {
+          setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
         .post(`${process.env.REACT_APP_API_ENDPOINT}/banners`, formData)
         .then((res) => {
+          setIsProcessing(false);
           setBanners((prev) => {
             return [...prev, res.data];
           });
           document.querySelector("#form").reset();
           setImagePreview(null);
+        })
+        .catch((err) => {
+          setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
@@ -80,6 +99,7 @@ const Banner = () => {
   };
   return (
     <>
+      {isProcessing && <Processing />}
       {!isLoading ? (
         banners.length !== 0 ? (
           <>

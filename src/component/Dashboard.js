@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,18 +31,22 @@ ChartJS.register(
 
 const options = {
   scales: {
-    revenue: {
-      type: "linear",
-      display: true,
-      position: "left",
+    y: {
+      beginAtZero: true,
+      display: false,
     },
-    orders: {
-      type: "linear",
-      display: true,
-      position: "right",
-      ticks: {
-        stepSize: 1,
+    x: {
+      grid: {
+        display: false,
       },
+    },
+  },
+  plugins: {
+    legend: {
+      labels: {
+        pointStyle: "circle",
+      },
+      maxWidth: 30,
     },
   },
 };
@@ -89,6 +94,7 @@ const Dashboard = () => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/statistics`)
       .then((res) => {
+        console.log(res.data);
         setIsLoading(false);
         setData(res.data);
         let completed_orders = res.data.total_completed_orders;
@@ -144,9 +150,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "orders",
-              borderColor: "rgb(255, 99, 132)",
-              backgroundColor: "rgba(255, 99, 132, 0.5)",
+              borderColor: "#041e3a",
+              backgroundColor: "#041e3a",
             },
             {
               label: "Doanh số",
@@ -158,9 +163,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "revenue",
-              borderColor: "rgb(53, 162, 235)",
-              backgroundColor: "rgba(53, 162, 235, 0.5)",
+              borderColor: "#1675e0",
+              backgroundColor: "#1675e0",
             },
           ],
         });
@@ -229,9 +233,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "orders",
-              borderColor: "rgb(255, 99, 132)",
-              backgroundColor: "rgba(255, 99, 132, 0.5)",
+              borderColor: "#041e3a",
+              backgroundColor: "#041e3a",
             },
             {
               label: "Doanh số",
@@ -245,9 +248,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "revenue",
-              borderColor: "rgb(53, 162, 235)",
-              backgroundColor: "rgba(53, 162, 235, 0.5)",
+              borderColor: "#1675e0",
+              backgroundColor: "#1675e0",
             },
           ],
         });
@@ -291,9 +293,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "orders",
-              borderColor: "rgb(255, 99, 132)",
-              backgroundColor: "rgba(255, 99, 132, 0.5)",
+              borderColor: "#041e3a",
+              backgroundColor: "#041e3a",
             },
             {
               label: "Doanh số",
@@ -305,9 +306,8 @@ const Dashboard = () => {
                   return 0;
                 }
               }),
-              yAxisID: "revenue",
-              borderColor: "rgb(53, 162, 235)",
-              backgroundColor: "rgba(53, 162, 235, 0.5)",
+              borderColor: "#1675e0",
+              backgroundColor: "#1675e0",
             },
           ],
         });
@@ -326,111 +326,121 @@ const Dashboard = () => {
         <div id="statistics">
           <div class="dash-tiles row">
             <div class="col-sm-3">
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Người dùng
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">{data.total_users}</span>
+              <Link to={"customers"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Người dùng
                     </span>
-                  </label>
-                </div>
-              </div>
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Người mua
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">
-                        {data.total_bought_users}
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">{data.total_users}</span>
                       </span>
-                    </span>
-                  </label>
+                    </label>
+                  </div>
                 </div>
-              </div>
+              </Link>
+              <Link to={"customers"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Người mua
+                    </span>
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">
+                          {data.total_bought_users}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </Link>
             </div>
 
             <div class="col-sm-3">
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-                style={{ marginLeft: "16px" }}
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Đơn hàng
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">{data.total_orders}</span>
+              <Link to={"orders"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                  style={{ marginLeft: "16px" }}
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Đơn hàng
                     </span>
-                  </label>
-                </div>
-              </div>
-
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-                style={{ marginLeft: "16px" }}
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Đơn hàng hoàn thành
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">
-                        {data.total_completed_orders.length}
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">{data.total_orders}</span>
                       </span>
-                    </span>
-                  </label>
+                    </label>
+                  </div>
                 </div>
-              </div>
+              </Link>
+              <Link to={"orders?status=6"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                  style={{ marginLeft: "16px" }}
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Đơn hàng hoàn thành
+                    </span>
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">
+                          {data.total_completed_orders.length}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </Link>
             </div>
 
             <div class="col-sm-3">
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-                style={{ marginLeft: "16px" }}
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Sản phẩm
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">{data.total_products}</span>
+              <Link to={"products"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                  style={{ marginLeft: "16px" }}
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Sản phẩm
                     </span>
-                  </label>
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">
+                          {data.total_products}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
                 </div>
-              </div>
-
+              </Link>
               <div
                 data-v-ca3d5102=""
                 data-v-64252556=""
@@ -458,27 +468,29 @@ const Dashboard = () => {
             </div>
 
             <div class="col-sm-3">
-              <div
-                data-v-ca3d5102=""
-                data-v-64252556=""
-                class="key-metric-item track-click-key-metric-item key-metric km-selectable"
-                style={{ marginLeft: "16px" }}
-              >
-                <div data-v-ca3d5102="" class="title">
-                  <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
-                    Doanh mục
-                  </span>
-                </div>
-                <div data-v-ca3d5102="" class="value">
-                  <label data-v-ca3d5102="" class="number">
-                    <span class="number">
-                      <span class="currency-value">
-                        {data.total_categories}
-                      </span>
+              <Link to={"category"}>
+                <div
+                  data-v-ca3d5102=""
+                  data-v-64252556=""
+                  class="key-metric-item track-click-key-metric-item key-metric km-selectable"
+                  style={{ marginLeft: "16px" }}
+                >
+                  <div data-v-ca3d5102="" class="title">
+                    <span data-v-ca3d5102="" style={{ marginRight: "4px" }}>
+                      Doanh mục
                     </span>
-                  </label>
+                  </div>
+                  <div data-v-ca3d5102="" class="value">
+                    <label data-v-ca3d5102="" class="number">
+                      <span class="number">
+                        <span class="currency-value">
+                          {data.total_categories}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <div
                 data-v-ca3d5102=""
@@ -611,7 +623,15 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                  {dataset && <Line options={options} data={dataset} />}
+                  <div
+                    style={{
+                      position: "relative",
+                      height: "350px",
+                      clear: "both",
+                    }}
+                  >
+                    {dataset && <Line options={options} data={dataset} />}
+                  </div>
                 </div>
               </div>
             </div>

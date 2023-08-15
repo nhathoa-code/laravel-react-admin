@@ -38,12 +38,18 @@ const Brand = () => {
   };
 
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/brands/${id}`)
       .then((res) => {
+        setIsProcessing(false);
         setBrands((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 
@@ -73,8 +79,9 @@ const Brand = () => {
           setImagePreview(null);
           setIsEditMode(false);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       formData.append("category_id", category_id);
@@ -88,8 +95,9 @@ const Brand = () => {
           document.querySelector("#form").reset();
           setImagePreview(null);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };

@@ -258,7 +258,17 @@ const Product = () => {
     e.preventDefault();
     const formData = new FormData(document.getElementById("form"));
     if (description.length === "" || formData.get("categories[]") === null) {
-      return alert("Vui lòng nhập thông tin đầy đủ!");
+      return alert("Vui lòng nhập mô tả sản phẩm!");
+    }
+    let price = parseInt(formData.get("p_price").replace(".", ""));
+    let discounted_price = parseInt(
+      formData.get("p_discounted_price").replace(".", "")
+    );
+    if (price < 10000) {
+      return alert("Giá sản phẩm không được nhỏ hơn 10.000 đ !");
+    }
+    if (discounted_price > price) {
+      return alert("Giảm giá không được lớn hơn giá gốc !");
     }
     setIsProcessing(true);
     formData.append(
@@ -322,9 +332,9 @@ const Product = () => {
           navigate("/products");
         }, 10);
       })
-      .catch(() => {
+      .catch((err) => {
         setIsProcessing(false);
-        alert("Có lỗi xảy ra,vui lòng thử lại");
+        alert(err.response.data.message);
       });
   };
 
@@ -610,6 +620,7 @@ const Product = () => {
                     allowNegative={false}
                     name="p_discounted_price"
                     className="form-control"
+                    defaultValue={0}
                     required
                   />
                 </div>

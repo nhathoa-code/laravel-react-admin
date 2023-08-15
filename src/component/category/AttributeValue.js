@@ -45,9 +45,10 @@ const AttributeValue = () => {
           setAttributeValue({});
           alert(res.data.message);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsEditMode(false);
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
@@ -66,8 +67,9 @@ const AttributeValue = () => {
           });
           setAttributeValue({});
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
@@ -83,6 +85,10 @@ const AttributeValue = () => {
         setCategoryAttributeValues((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

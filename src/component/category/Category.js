@@ -47,8 +47,9 @@ const Category = () => {
           document.querySelector("input[name=slug]").value = "";
           alert(res.data.message);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
@@ -66,19 +67,26 @@ const Category = () => {
           setInputs({});
           document.querySelector("input[name=slug]").value = "";
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
 
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/categories/${id}`)
       .then((res) => {
+        setIsProcessing(false);
         setCategories((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

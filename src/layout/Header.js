@@ -55,13 +55,11 @@ const Header = () => {
             </a>
           </li>
         </ul>
-        <Link to={"/admin"} className="navbar-brand">
-          {/* <img src="/img/template/logo.png" alt="logo" /> */}
-          {/* <img style={{ width: "100px" }} src="/img/logo.png" alt="logo" /> */}
+        <a href="javascript:void(0)" className="navbar-brand">
           {admin.roles.map((item, index) => {
             return item.name + (index === admin.roles.length - 1 ? "" : ", ");
           })}
-        </Link>
+        </a>
 
         <div id="loading" class="pull-left">
           <i class="fa fa-certificate fa-spin"></i>
@@ -78,9 +76,14 @@ const Header = () => {
                 <img
                   src={`${process.env.REACT_APP_SERVER_ROOT_URL}/${admin.picture}`}
                   alt="avatar"
+                  style={{ width: "30px", height: "30px" }}
                 />
               ) : (
-                <img src="/img/template/avatar.png" alt="avatar" />
+                <img
+                  style={{ width: "30px", height: "30px" }}
+                  src="/img/template/avatar.png"
+                  alt="avatar"
+                />
               )}
 
               {admin.name}

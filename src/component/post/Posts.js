@@ -77,7 +77,7 @@ const Posts = () => {
                       <td>{post.title}</td>
                       <td className="text-center">
                         <img
-                          style={{ width: "120px" }}
+                          style={{ width: "120px", height: "auto" }}
                           src={`${process.env.REACT_APP_SERVER_ROOT_URL}/${post.post_thumbnail}`}
                         />
                       </td>

@@ -55,9 +55,10 @@ const Attribute = () => {
           setAttribute({});
           alert(res.data.message);
         })
-        .catch(() => {
+        .catch((err) => {
           setIsEditMode(false);
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     } else {
       axios
@@ -74,19 +75,26 @@ const Attribute = () => {
           });
           setAttribute({});
         })
-        .catch(() => {
+        .catch((err) => {
           setIsProcessing(false);
+          alert(err.response.data.message);
         });
     }
   };
 
   const handleDelete = (id) => {
+    setIsProcessing(true);
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}/category_attributes/${id}`)
       .then((res) => {
+        setIsProcessing(false);
         setCategoryAttributes((prev) => {
           return [...prev].filter((item) => item.id !== id);
         });
+      })
+      .catch((err) => {
+        setIsProcessing(false);
+        alert(err.response.data.message);
       });
   };
 

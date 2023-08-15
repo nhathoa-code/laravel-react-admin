@@ -237,14 +237,6 @@ strong {
   border: 1px solid #cbd1d6;
   transition: all 0.3s cubic-bezier(0, 0, 0.4, 1);
 }
-.boxReview a,
-.comment-container a {
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent;
-}
 
 .boxReview i,
 .comment-container i {
@@ -312,11 +304,12 @@ strong {
   display: block;
   position: relative;
 }
-img {
+
+/* img {
   height: auto;
   max-width: 100%;
   margin-right: 10px;
-}
+} */
 
 #product {
   display: flex;

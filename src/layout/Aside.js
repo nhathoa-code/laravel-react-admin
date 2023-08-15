@@ -14,7 +14,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={""}
@@ -26,7 +26,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname.includes("/category")
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"category"}
@@ -38,7 +38,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname.includes("/products_groups")
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"products_groups"}
@@ -53,7 +53,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/products"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"products"}
@@ -65,7 +65,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/product/add"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"product/add"}
@@ -79,7 +79,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/orders"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"orders"}
@@ -90,8 +90,20 @@ const Aside = () => {
           <li>
             <Link
               style={
+                location.pathname === "/customers"
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
+                  : {}
+              }
+              to={"customers"}
+            >
+              KHÁCH HÀNG
+            </Link>
+          </li>
+          <li>
+            <Link
+              style={
                 location.pathname === "/banners"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"banners"}
@@ -103,7 +115,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/roles"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"roles"}
@@ -115,7 +127,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/admins"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"admins"}
@@ -127,7 +139,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/post/categories"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"/post/categories"}
@@ -142,7 +154,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/posts"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"posts"}
@@ -154,7 +166,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/post/add"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"posts/add"}
@@ -168,7 +180,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/comments"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"comments"}
@@ -180,7 +192,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/reviews"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"reviews"}
@@ -195,7 +207,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/coupons"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"coupons"}
@@ -207,7 +219,7 @@ const Aside = () => {
                 <Link
                   style={
                     location.pathname === "/coupon/add"
-                      ? { backgroundColor: "#f6f6f6", color: "#777" }
+                      ? { backgroundColor: "#fff", color: "#041e3a" }
                       : {}
                   }
                   to={"coupon/add"}
@@ -221,7 +233,7 @@ const Aside = () => {
             <Link
               style={
                 location.pathname === "/flashsale"
-                  ? { backgroundColor: "#f6f6f6", color: "#777" }
+                  ? { backgroundColor: "#fff", color: "#041e3a" }
                   : {}
               }
               to={"flashsale"}
