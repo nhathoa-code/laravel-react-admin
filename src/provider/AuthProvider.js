@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}/admin`)
       .then((res) => {
-        console.log(res.data);
         setIsLogginChecked(true);
         setAdmin({ ...res.data.admin });
         setIsLogginChecked(true);

@@ -1241,7 +1241,7 @@ const Edit = () => {
                               ).product_color && (
                                 <>
                                   <img
-                                    style={{ width: "100px", height: "auto" }}
+                                    style={{ width: "100%", height: "auto" }}
                                     src={
                                       product_colors_images_preview.find(
                                         (item) => item.key === key
@@ -1252,7 +1252,7 @@ const Edit = () => {
                                   />
                                   <input
                                     style={{
-                                      width: "100px",
+                                      width: "100%",
                                       textAlign: "center",
                                     }}
                                     type="text"
@@ -1553,10 +1553,10 @@ const Edit = () => {
                             {Item.brands.map((item) => {
                               return (
                                 <div class="checkbox">
-                                  <label for={item.id}>
+                                  <label for={`brand_${item.id}`}>
                                     <input
                                       type="checkbox"
-                                      id={item.id}
+                                      id={`brand_${item.id}`}
                                       name="brands[]"
                                       value={`${Item.id}/${item.id}`}
                                       defaultChecked={
@@ -1586,10 +1586,10 @@ const Edit = () => {
                                 {item.values.map((item) => {
                                   return (
                                     <div class="checkbox">
-                                      <label for={item.id}>
+                                      <label for={`cat_attr_${item.id}`}>
                                         <input
                                           type="checkbox"
-                                          id={item.id}
+                                          id={`cat_attr_${item.id}`}
                                           name="categories_attributes_values[]"
                                           value={`${Item.id}/${item.id}`}
                                           defaultChecked={
